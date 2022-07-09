@@ -2,12 +2,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from "axios";
 import { useCallback, useState } from "react";
+import { pick } from 'lodash';
 
 import { Recipe } from "interfaces/types";
 import { useSnackbar } from 'notistack';
 import useHandleHttpRequestError from '../useHandleHttpRequestError';
 
-const apiBasePath = "/api/recipes";
+const apiBasePath = "/recipes";
 
 function useRecipes() {
     const { getAccessTokenSilently } = useAuth0();
@@ -25,9 +26,10 @@ function useRecipes() {
         }
     }, [getAccessTokenSilently]);
 
-    const createRecipe = useCallback(async (values) => {
+    const createRecipe = useCallback(async (values: Recipe) => {
+
         setPending(true);
-        axios.post(apiBasePath, values, await getOptions())
+        axios.post(`${apiBasePath}/`, values)
             .then((res) => {
                 const newRecipes = [
                     ...recipes,
@@ -44,7 +46,7 @@ function useRecipes() {
 
     const removeRecipe = useCallback(async (id) => {
         setPending(true);
-        axios.delete(`${apiBasePath}/${id}`, await getOptions())
+        axios.delete(`${apiBasePath}/${id}`)
             .then(() => {
                 const newRecipes = recipes.filter((r) => {
                     return r.id !== id;
@@ -60,11 +62,11 @@ function useRecipes() {
 
     const getRecipes = useCallback(async () => {
         setPending(true);
-        const options = await getOptions();
-        axios.get(apiBasePath, options)
+        // const options = await getOptions();
+        axios.get(`${apiBasePath}/`)
             .then((res) => {
                 setPending(false);
-                setRecipes(res.data)
+                setRecipes(res.data.results)
             }).catch((err) => {
                 setPending(false);
                 handleError(err);

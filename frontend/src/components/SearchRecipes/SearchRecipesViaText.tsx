@@ -53,7 +53,11 @@ export default function SearchRecipesViaText() {
         return null;
     }
 
-    return <Box component="form" sx={{ mt: 2 }}>
+    const handleSubmit = useCallback((e: React.FormEvent) => {
+        e.preventDefault();
+    }, [])
+
+    return <Box component="form" sx={{ mt: 2 }} onSubmit={handleSubmit}>
         <TextField fullWidth value={search} onChange={handleChangeInput} sx={{
             mb: 1
         }} variant='outlined' label='Search Query' size="small"

@@ -14,10 +14,8 @@ export default function SavedRecipesPage() {
     const { isAuthenticated, isLoading } = useAuth0();
 
     useEffect(() => {
-        if (isAuthenticated) {
-            getRecipes();
-        }
-    }, [getRecipes, isAuthenticated]);
+        getRecipes();
+    }, [getRecipes]);
 
     const handleDeleteClick = useCallback((id: any) => {
         removeRecipe(id);
@@ -46,7 +44,6 @@ export default function SavedRecipesPage() {
     }, [isLoading]);
 
     return <Layout>
-        {!isAuthenticated && !isLoading ? <Alert severity="info">Please log in first to see saved recipes</Alert>
-            : <RecipesList empty={renderEmpty} loading={pending || isLoading} recipes={recipes} listItemExtra={listItemExtra} />}
+        {<RecipesList empty={renderEmpty} loading={pending || isLoading} recipes={recipes} listItemExtra={listItemExtra} />}
     </Layout>
 }

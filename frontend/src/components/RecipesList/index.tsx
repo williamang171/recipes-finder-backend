@@ -27,7 +27,7 @@ export default function RecipesList(props: Props) {
                 {recipes.map((r, i) => {
                     return (
                         <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={i}>
-                            <RecipeListItem extra={listItemExtra} name={r.name} url={r.url} imageUrl={r.imageUrl} mealDbId={r.mealDbId} id={r.id} />
+                            <RecipeListItem extra={listItemExtra} name={r.name} url={r.url} imageUrl={r.image_url} mealDbId={r.mealdb_id} id={r.id} />
                         </Grid>
                     )
                 })}

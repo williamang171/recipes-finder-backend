@@ -38,9 +38,9 @@ export default function useMealDb() {
             if (Array.isArray(res.data.meals)) {
                 setMealsView(res.data.meals.map((m: any) => {
                     return {
-                        mealDbId: m.idMeal,
+                        mealdb_id: m.idMeal,
                         name: m.strMeal,
-                        imageUrl: m.strMealThumb,
+                        image_url: m.strMealThumb,
                         url: `https://themealdb.com/meal.php?c=${m.idMeal}`
                     }
                 }));

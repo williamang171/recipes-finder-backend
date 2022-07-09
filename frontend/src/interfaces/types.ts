@@ -16,6 +16,6 @@ export interface Recipe {
     id?: number;
     name: string;
     url: string;
-    imageUrl: string;
-    mealDbId?: string;
+    image_url: string;
+    mealdb_id?: string;
 }

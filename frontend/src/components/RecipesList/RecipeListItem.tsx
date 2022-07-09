@@ -68,9 +68,9 @@ export default function RecipeListItem(props: Props) {
                 </CardContent>
                 {typeof extra === 'function' ? extra({
                     url,
-                    imageUrl,
+                    image_url: imageUrl,
                     name,
-                    mealDbId,
+                    mealdb_id: mealDbId,
                     id
                 }) : null}
             </Box>

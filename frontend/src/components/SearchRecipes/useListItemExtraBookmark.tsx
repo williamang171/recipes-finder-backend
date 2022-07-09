@@ -58,22 +58,22 @@ export default function useListItemExtraBookmark(props: Props) {
     const savedRecipesMapByMealId = useMemo(() => {
         const obj: Record<string, Recipe> = {};
         savedRecipes.forEach((r: Recipe) => {
-            if (r.mealDbId) {
-                obj[r.mealDbId] = r
+            if (r.mealdb_id) {
+                obj[r.mealdb_id] = r
             }
         });
         return obj;
     }, [savedRecipes]);
 
     const listItemExtra = useCallback((recipe: Recipe) => {
-        const found = recipe.mealDbId ? savedRecipesMapByMealId[recipe.mealDbId] : false;
+        const found = recipe.mealdb_id ? savedRecipesMapByMealId[recipe.mealdb_id] : false;
 
         return (
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', pl: 1, pb: 1, mr: 1 }}>
-                <StyledIconButton isAuthenticated={isAuthenticated} onClick={() => {
-                    if (!isAuthenticated) {
-                        return;
-                    }
+                <StyledIconButton isAuthenticated={true} onClick={() => {
+                    // if (!isAuthenticated) {
+                    //     return;
+                    // }
                     if (found) {
                         removeRecipe(found.id);
                         return;
@@ -81,7 +81,7 @@ export default function useListItemExtraBookmark(props: Props) {
                     createRecipe(recipe);
                 }}
                 >
-                    <ListItemExtraBookmarkIcon found={found} isAuthenticated={isAuthenticated} />
+                    <ListItemExtraBookmarkIcon found={found} isAuthenticated={true} />
                 </StyledIconButton>
             </Box>
         )

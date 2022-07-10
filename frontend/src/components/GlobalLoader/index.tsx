@@ -7,7 +7,6 @@ interface Props {
 export default function GlobalLoader(props: Props) {
     const { loading } = props;
     return (
-
         <Fade
             in={loading === true}
             style={{

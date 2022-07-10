@@ -1,27 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Avatar, Dialog, DialogContent, DialogTitle, } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useAuth0 } from '@auth0/auth0-react';
 import Box from '@mui/material/Box';
 import { TextField } from "@mui/material";
-import { CircularProgress } from "@mui/material";
 
 import LoginButton from 'components/Layout/LoginButton';
-
+import { AuthContext } from "contexts/AuthContext";
+import useAuth from "hooks/useHttpAPI/useAuth";
 
 interface Props {
     handleMenu(event: React.MouseEvent<HTMLElement>): any,
     anchorEl: null | HTMLElement,
     handleClose(): any
+    user?: any
 }
 
 export default function AuthItem(props: Props) {
     const { handleMenu, anchorEl, handleClose } = props;
-    const { isAuthenticated, logout, user, isLoading } = useAuth0();
+    const { isAuthenticated, user } = useContext(AuthContext);
+    const { logout } = useAuth();
     const { name, picture, email } = user || {};
     const [open, setOpen] = React.useState(false);
 
@@ -63,16 +64,17 @@ export default function AuthItem(props: Props) {
     )
 
     const logoutOnClick = () => {
-        logout({
-            returnTo: window.location.origin,
-        })
+        logout();
+        // logout({
+        //     returnTo: window.location.origin,
+        // })
     }
 
-    if (isLoading) {
-        return <Box sx={{ color: '#fff', justifyContent: "center", display: 'flex', alignItems: 'center', mr: 2, ml: 2 }}  >
-            <CircularProgress color="inherit" size={20} />
-        </Box>
-    }
+    // if (isLoading) {
+    //     return <Box sx={{ color: '#fff', justifyContent: "center", display: 'flex', alignItems: 'center', mr: 2, ml: 2 }}  >
+    //         <CircularProgress color="inherit" size={20} />
+    //     </Box>
+    // }
 
     if (isAuthenticated) {
         return (

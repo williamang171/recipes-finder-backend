@@ -1,7 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { Box, IconButton } from "@mui/material";
 import Alert from '@mui/material/Alert';
-import { useAuth0 } from "@auth0/auth0-react";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { Recipe } from "interfaces/types";
@@ -11,7 +10,6 @@ import useRecipes from "hooks/useHttpAPI/useRecipes";
 
 export default function SavedRecipesPage() {
     const { recipes, getRecipes, removeRecipe, pending } = useRecipes();
-    const { isAuthenticated, isLoading } = useAuth0();
 
     useEffect(() => {
         getRecipes();
@@ -35,15 +33,12 @@ export default function SavedRecipesPage() {
     }, [handleDeleteClick]);
 
     const renderEmpty = useCallback(() => {
-        if (isLoading) {
-            return null;
-        }
         return <Alert severity="info">
             No saved recipes yet
         </Alert>
-    }, [isLoading]);
+    }, []);
 
     return <Layout>
-        {<RecipesList empty={renderEmpty} loading={pending || isLoading} recipes={recipes} listItemExtra={listItemExtra} />}
+        {<RecipesList empty={renderEmpty} loading={pending} recipes={recipes} listItemExtra={listItemExtra} />}
     </Layout>
 }

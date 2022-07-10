@@ -19,3 +19,13 @@ export interface Recipe {
     image_url: string;
     mealdb_id?: string;
 }
+
+export interface User {
+    email: string;
+    password: string;
+}
+
+export interface UserLogin {
+    username: string;
+    password: string;
+}

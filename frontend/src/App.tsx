@@ -10,22 +10,26 @@ import SettingsPage from "pages/SettingsPage";
 import ToggleColorMode from "components/ToggleColorMode";
 import SignUp from "pages/SignUp";
 import SignIn from "pages/SignIn";
-
+import { AuthContextProvider } from "contexts/AuthContext"
+import LoadCurrentUser from "components/LoadCurrentUser";
 
 function App() {
   return <ToggleColorMode
   >
     <SnackbarProvider autoHideDuration={1500}>
       <CssBaseline />
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/finder" element={<FinderPage />} />
-        <Route path="/saved-recipes" element={<SavedRecipesPage />} />
-        <Route path="/debug-auth" element={<DebugAuthPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/sign-in" element={<SignIn />} />
-      </Routes>
+      <AuthContextProvider>
+        <LoadCurrentUser />
+        <Routes>
+          <Route path="/" element={<IndexPage />} />
+          <Route path="/finder" element={<FinderPage />} />
+          <Route path="/saved-recipes" element={<SavedRecipesPage />} />
+          <Route path="/debug-auth" element={<DebugAuthPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/auth/sign-up" element={<SignUp />} />
+          <Route path="/auth/sign-in" element={<SignIn />} />
+        </Routes>
+      </AuthContextProvider>
     </SnackbarProvider>
   </ToggleColorMode>
 

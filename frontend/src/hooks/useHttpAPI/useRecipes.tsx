@@ -1,8 +1,5 @@
-
-import { useAuth0 } from '@auth0/auth0-react';
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { pick } from 'lodash';
 
 import { Recipe } from "interfaces/types";
 import { useSnackbar } from 'notistack';
@@ -11,25 +8,24 @@ import useHandleHttpRequestError from '../useHandleHttpRequestError';
 const apiBasePath = "/recipes";
 
 function useRecipes() {
-    const { getAccessTokenSilently } = useAuth0();
     const { handleError } = useHandleHttpRequestError();
     const { enqueueSnackbar } = useSnackbar();
     const [recipes, setRecipes] = useState<Array<Recipe>>([]);
     const [pending, setPending] = useState(false);
 
-    const getOptions = useCallback(async () => {
-        const t = await getAccessTokenSilently();
+    const getOptions = useCallback(() => {
+        const t = localStorage.getItem("token");
         return {
             headers: {
                 authorization: `Bearer ${t}`
             }
         }
-    }, [getAccessTokenSilently]);
+    }, []);
 
     const createRecipe = useCallback(async (values: Recipe) => {
 
         setPending(true);
-        axios.post(`${apiBasePath}/`, values)
+        axios.post(`${apiBasePath}/`, values, getOptions())
             .then((res) => {
                 const newRecipes = [
                     ...recipes,
@@ -46,7 +42,7 @@ function useRecipes() {
 
     const removeRecipe = useCallback(async (id) => {
         setPending(true);
-        axios.delete(`${apiBasePath}/${id}`)
+        axios.delete(`${apiBasePath}/${id}`, getOptions())
             .then(() => {
                 const newRecipes = recipes.filter((r) => {
                     return r.id !== id;
@@ -63,7 +59,7 @@ function useRecipes() {
     const getRecipes = useCallback(async () => {
         setPending(true);
         // const options = await getOptions();
-        axios.get(`${apiBasePath}/`)
+        axios.get(`${apiBasePath}/`, getOptions())
             .then((res) => {
                 setPending(false);
                 setRecipes(res.data.results)

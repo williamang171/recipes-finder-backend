@@ -1,15 +1,15 @@
 import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from "react-router-dom";
 import { Button, Box } from "@mui/material";
 
 const LoginButton = () => {
-    const { loginWithRedirect } = useAuth0();
     return (
-        <Box>
+        <Box sx={{ minWidth: "90px", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
             <Button
+                component={Link}
+                to="/auth/sign-in"
                 variant='contained'
                 color='secondary'
-                onClick={() => loginWithRedirect()}
             >
                 Log In
             </Button>

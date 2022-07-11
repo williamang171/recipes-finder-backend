@@ -5,7 +5,7 @@ import { Recipe } from "interfaces/types";
 import { useSnackbar } from 'notistack';
 import useHandleHttpRequestError from '../useHandleHttpRequestError';
 
-const apiBasePath = "/recipes";
+const apiBasePath = "/api/v1/recipes";
 
 function useRecipes() {
     const { handleError } = useHandleHttpRequestError();

@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack';
 import useHandleHttpRequestError from '../useHandleHttpRequestError';
 import { AuthContext } from "contexts/AuthContext";
 
-const apiBasePath = "/users";
+const apiBasePath = "/api/v1/auth";
 
 function useAuth() {
     const { setIsAuthenticated, setUser, user, isAuthenticated } = useContext(AuthContext);
@@ -16,7 +16,7 @@ function useAuth() {
 
     const register = useCallback(async (values: User, successCallback?: Function) => {
         setPending(true);
-        axios.post(`${apiBasePath}/`, values)
+        axios.post(`${apiBasePath}/register`, values)
             .then((res) => {
                 setUser(res.data);
                 enqueueSnackbar("Sign up successful, you can now sign in with your credentials");
@@ -35,7 +35,7 @@ function useAuth() {
         const formData = new FormData();
         formData.append("username", values.username);
         formData.append("password", values.password);
-        axios.post(`/token`, formData)
+        axios.post(`${apiBasePath}/token`, formData)
             .then((res) => {
                 setPending(false);
                 localStorage.setItem("token", res.data.access_token);
@@ -52,7 +52,7 @@ function useAuth() {
     const loadCurrentUser = useCallback(async () => {
         setPending(true);
         const token = localStorage.getItem("token");
-        axios.get(`/users/me`, {
+        axios.get(`${apiBasePath}/me`, {
             headers: {
                 authorization: `Bearer ${token}`
             }

@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { Image } from "interfaces/types";
 import useHandleHttpRequestError from '../useHandleHttpRequestError';
 
-const apiBasePath = "/api/unsplash";
+const apiBasePath = "/api/v1/unsplash";
 
 interface UnsplashSearchResponse {
     results: Array<any>,
@@ -39,7 +39,7 @@ function useUnsplash() {
 
     const searchPhotos = useCallback((searchPhotosQuery: SearchPhotosParams) => {
         const { page, perPage = 24, query = "food" } = searchPhotosQuery;
-        axios.get(`${apiBasePath}?query=${query}&perPage=${perPage}&page=${page}`)
+        axios.get(`${apiBasePath}/search?query=${query}&perPage=${perPage}&page=${page}`)
             .then((res) => {
                 setData((ds) => ds.concat(mapResponseData(res.data)));
                 setNextPage((page) => page + 1);

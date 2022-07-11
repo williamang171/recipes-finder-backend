@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 
 import useHandleHttpRequestError from '../useHandleHttpRequestError';
 
-const apiBasePath = "/api/predict";
+const apiBasePath = "api/v1/predict";
 
 function usePredict() {
     const [predictions, setPredictions] = useState([]);
@@ -13,7 +13,7 @@ function usePredict() {
     const predictViaUrl = useCallback(async (imageUrl: string, options?) => {
         try {
             setPending(true);
-            const res = await axios.post(apiBasePath, {
+            const res = await axios.post(`${apiBasePath}/`, {
                 url: imageUrl
             }, options);
             setPredictions(res.data);

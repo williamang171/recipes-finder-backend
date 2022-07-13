@@ -3,6 +3,7 @@ from fastapi import FastAPI, APIRouter,  Request
 from pathlib import Path
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, File, UploadFile
 
 from app.models import auth, recipe
 from .database import engine
@@ -37,6 +38,11 @@ app.mount("/static", StaticFiles(directory=BASE_PATH/"static"), name="static")
 
 app.include_router(api_router, prefix="/api/v1")
 app.include_router(root_router)
+
+
+@app.post("/uploadfile/")
+async def create_upload_file(file: UploadFile):
+    return {"filename": file.filename}
 
 
 @app.get("/{full_path:path}")

@@ -1,10 +1,20 @@
+import { AuthContext } from "contexts/AuthContext";
 import { useSnackbar } from "notistack";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 
 export default function useHandleHttpRequestError() {
     const { enqueueSnackbar } = useSnackbar();
+    const { setIsAuthenticated, setUser } = useContext(AuthContext)
 
     const handleError = useCallback((err) => {
+        const response = err.response || {};
+        if (response && response.status === 401) {
+            enqueueSnackbar("Login session expired, please sign in again");
+            localStorage.removeItem("token");
+            setIsAuthenticated(false);
+            setUser(null);
+            return;
+        }
         if (err && err.message) {
             enqueueSnackbar(err.message);
             return;

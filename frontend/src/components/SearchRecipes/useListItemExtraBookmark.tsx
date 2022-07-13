@@ -1,6 +1,5 @@
-import React, { useCallback, useMemo, useEffect } from "react";
+import React, { useCallback, useMemo, useEffect, useContext } from "react";
 import { Box, Tooltip } from "@mui/material";
-import { useAuth0 } from "@auth0/auth0-react";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark'
@@ -8,6 +7,7 @@ import { styled } from "@mui/system";
 
 import { Recipe } from "interfaces/types";
 import useRecipes from "hooks/useHttpAPI/useRecipes";
+import { AuthContext } from "contexts/AuthContext";
 
 interface StyledIconButtonProps extends IconButtonProps {
     isAuthenticated?: boolean
@@ -35,7 +35,7 @@ const ListItemExtraBookmarkIcon = React.memo((props: ListItemExtraBookmarkIconPr
             <BookmarkIcon fontSize='medium' /> :
             <BookmarkBorderIcon fontSize='medium' />
     }
-    return <Tooltip title="Please log in first to save the recipe">
+    return <Tooltip title="Please sign in to save the recipe">
         <BookmarkBorderIcon fontSize='medium' />
     </Tooltip>
 });
@@ -46,7 +46,7 @@ interface Props {
 
 export default function useListItemExtraBookmark(props: Props) {
     const { fetchSavedRecipes } = props;
-    const { isAuthenticated } = useAuth0();
+    const { isAuthenticated } = useContext(AuthContext);
     const { createRecipe, getRecipes: getSavedRecipes, recipes: savedRecipes = [], removeRecipe, pending: reqPending } = useRecipes();
 
     useEffect(() => {
@@ -70,10 +70,10 @@ export default function useListItemExtraBookmark(props: Props) {
 
         return (
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', pl: 1, pb: 1, mr: 1 }}>
-                <StyledIconButton isAuthenticated={true} onClick={() => {
-                    // if (!isAuthenticated) {
-                    //     return;
-                    // }
+                <StyledIconButton isAuthenticated={isAuthenticated || false} onClick={() => {
+                    if (!isAuthenticated) {
+                        return;
+                    }
                     if (found) {
                         removeRecipe(found.id);
                         return;
@@ -81,7 +81,7 @@ export default function useListItemExtraBookmark(props: Props) {
                     createRecipe(recipe);
                 }}
                 >
-                    <ListItemExtraBookmarkIcon found={found} isAuthenticated={true} />
+                    <ListItemExtraBookmarkIcon found={found} isAuthenticated={isAuthenticated || false} />
                 </StyledIconButton>
             </Box>
         )

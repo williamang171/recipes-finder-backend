@@ -59,22 +59,15 @@ export default function AuthItem(props: Props) {
                             value={email}
                         />
                     </Box>
-                </Box>             </DialogContent>
+                </Box>
+            </DialogContent>
         </Dialog>
     )
 
     const logoutOnClick = () => {
         logout();
-        // logout({
-        //     returnTo: window.location.origin,
-        // })
     }
 
-    // if (isLoading) {
-    //     return <Box sx={{ color: '#fff', justifyContent: "center", display: 'flex', alignItems: 'center', mr: 2, ml: 2 }}  >
-    //         <CircularProgress color="inherit" size={20} />
-    //     </Box>
-    // }
 
     if (isAuthenticated) {
         return (

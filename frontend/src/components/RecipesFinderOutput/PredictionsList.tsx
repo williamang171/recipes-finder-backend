@@ -23,18 +23,29 @@ interface Props {
 }
 
 const Placeholder = React.memo(() => {
+
     return <Box sx={{
         display: "flex",
         pl: 3,
         pt: 3,
         height: "460px",
         width: "100%",
-        justifyContent: "flex-start"
+        maxWidth: "100%",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        flexWrap: "wrap",
     }}>
-        <InfoIcon fontSize="small" sx={{ mr: 1 }} />
-        <Typography variant="caption" sx={{
-            mt: 0.2
-        }}>Predictions will be shown here after submission</Typography>
+        <div style={{ width: 300, height: "auto", display: "flex", alignItems: "center" }}>
+            <img style={{ width: "100%", height: "auto" }} src="/placeholder.svg" />
+        </div>
+        <div style={{ marginTop: "4px" }}>
+            <Typography variant="caption" sx={{
+                width: "100%",
+                textAlign: "center"
+            }}>Predictions will be shown here after submission</Typography>
+        </div>
+
     </Box>
 })
 

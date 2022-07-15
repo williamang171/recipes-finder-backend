@@ -2,11 +2,13 @@
 from clarifai_grpc.grpc.api.status import status_code_pb2
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
-from fastapi import Depends, APIRouter, UploadFile
+from fastapi import Depends, APIRouter, HTTPException, UploadFile
+import httpx
 
 from app.schemas.predict import PredictViaUrl
 from app.api.deps import get_settings
 from app import config
+from app.api.deps import verify_recaptcha
 
 api_router = APIRouter()
 
@@ -65,12 +67,11 @@ def predict(*, settings: config.Settings, image_url: str = None, file_bytes: byt
 
 
 @api_router.post("/")
-def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings = Depends(get_settings)):
+def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings = Depends(get_settings), valid_recaptcha: bool = Depends(verify_recaptcha)):
     return predict(settings=settings, image_url=predict_via_url.url)
 
 
 @api_router.post("/upload")
-async def predict_via_upload(*, file: UploadFile, settings: config.Settings = Depends(get_settings)):
-    MODEL_ID = "bd367be194cf45149e75f01d59f77ba7"
+async def predict_via_upload(*, file: UploadFile, settings: config.Settings = Depends(get_settings), valid_recaptcha: bool = Depends(verify_recaptcha)):
     file_bytes = await file.read()
     return predict(settings=settings, file_bytes=file_bytes)

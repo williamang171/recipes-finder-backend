@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 
-
+import { useTheme } from '@mui/material/styles';
 import ReCAPTCHA from "react-google-recaptcha";
 import { styled } from "@mui/material/styles";
 import { Button, Box, } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-
 import useGRecaptcha from "hooks/useGRecaptcha";
 import { Prediction } from "interfaces/types";
-import { useSnackbar } from "notistack";
 
 import usePredict from "hooks/useHttpAPI/usePredict";
 
@@ -24,7 +22,7 @@ interface Props {
 export default function FileUpload(props: Props) {
     const { predictViaUpload, pending } = usePredict();
     const { setPredictions, setImageUrl } = props;
-    const { enqueueSnackbar } = useSnackbar();
+    const theme = useTheme();
     const { gRecaptchaOnChange, gRecaptchaRef, gRecaptchaValue, siteKey, gRecaptchaReset, gRecaptchaHeaders } = useGRecaptcha();
 
     const [file, setFile] = useState<Blob | null>(null);
@@ -42,7 +40,6 @@ export default function FileUpload(props: Props) {
             setPredictions(res.data);
         }
         gRecaptchaReset();
-        enqueueSnackbar("Predictions made");
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

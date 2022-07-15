@@ -5,7 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { grey } from '@mui/material/colors';
+import Link from "@mui/material/Link";
 
 import { Recipe } from "interfaces/types";
 
@@ -53,14 +53,14 @@ export default function RecipeListItem(props: Props) {
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         overflow: "hidden",
-                        color: grey[900],
                         textDecoration: "none",
-                        display: "block"
+                        display: "block",
+                        color: (theme) => theme.palette.primary.main
                     }}
                     >
-                        <a target="_blank" rel="noreferrer" href={`https://themealdb.com/meal.php?c=${mealDbId}`}>
+                        <Link target="_blank" rel="noreferrer" href={`https://themealdb.com/meal.php?c=${mealDbId}`}>
                             {name}
-                        </a>
+                        </Link>
                     </StyledTypography>
                     <Typography variant="subtitle1" color="text.secondary" >
                         Meal ID: {mealDbId}

@@ -9,7 +9,7 @@ export default function useHandleHttpRequestError() {
     const handleError = useCallback((err) => {
         const response = err.response || {};
         if (response && response.status === 401) {
-            enqueueSnackbar("Login session expired, please sign in again");
+            enqueueSnackbar("Not authorized");
             localStorage.removeItem("token");
             setIsAuthenticated(false);
             setUser(null);

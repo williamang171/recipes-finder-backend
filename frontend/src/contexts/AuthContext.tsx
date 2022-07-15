@@ -32,11 +32,6 @@ export function AuthContextProvider(props: PropTypes) {
         }
     }, [isAuthenticated, setIsAuthenticated, user, setUser])
 
-    // useEffect(() => {
-    //     if (!user && (isAuthenticated === null || isAuthenticated === true)) {
-    //         loadAuthUser()
-    //     }
-    // }, [user, isAuthenticated])
 
     return (
         <AuthContext.Provider value={providerValue}>

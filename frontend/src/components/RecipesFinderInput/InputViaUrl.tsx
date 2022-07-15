@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { LoadingButton } from "@mui/lab";
-import { useSnackbar } from "notistack";
+import { useTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
@@ -21,9 +21,9 @@ interface Props {
 const defaultImageUrl = "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=1000&fit=crop&auto=format"
 
 export default function InputViaUrl(props: Props) {
-    const { pending, predictViaUrl } = usePredict();
+    const { pending, predictViaUrl } = usePredict()
+    const theme = useTheme();
     const [inputImageUrl, setInputImageUrl] = useState<string | null>("");
-    const { enqueueSnackbar } = useSnackbar();
     const { setPredictions, imageUrl, setImageUrl } = props;
     const { gRecaptchaOnChange, siteKey, gRecaptchaHeaders, gRecaptchaRef, gRecaptchaValue, gRecaptchaReset } = useGRecaptcha();
 
@@ -51,7 +51,6 @@ export default function InputViaUrl(props: Props) {
         if (res && res.data) {
             setPredictions(res.data);
         }
-        enqueueSnackbar("Predictions made");
         gRecaptchaReset();
     }
 

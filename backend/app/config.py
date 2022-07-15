@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     clarifai_key: str
     unsplash_client_id: str
     jwt_secret_key: str
+    recaptcha_secret: str
 
     class Config:
         env_file = ".env"

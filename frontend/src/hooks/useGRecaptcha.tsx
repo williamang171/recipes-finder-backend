@@ -20,9 +20,10 @@ export default function useGRecaptcha() {
 
     const gRecaptchaHeaders = useMemo(() => {
         return {
-            "g-recaptcha-value": value
+            "recaptcha-res": value
         }
     }, [value])
+
 
     return {
         gRecaptchaHeaders,

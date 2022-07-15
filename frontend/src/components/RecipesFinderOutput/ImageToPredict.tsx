@@ -2,27 +2,17 @@ import React from "react";
 import { CardMedia, Grid, Box, Typography } from "@mui/material"
 import InfoIcon from '@mui/icons-material/Info';
 import { useTheme } from "@mui/system";
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 
 import { useMediaQuery } from '@mui/material';
-import { grey } from "@mui/material/colors";
+import { blue, grey } from "@mui/material/colors";
 
 interface Props {
     imageUrl: string | null
 }
 
 const Placeholder = React.memo(() => {
-    return <Box sx={{
-        display: "flex",
-        pl: 2,
-        height: "460px",
-        width: "100%",
-        mt: 1
-    }}>
-        <InfoIcon fontSize="small" sx={{ mr: 1, }} />
-        <Typography variant="caption" sx={{
-            mt: 0.2
-        }}>Image to predict will be shown here</Typography>
-    </Box>
+    return null
 })
 
 export default function ImageToPredict(props: Props) {

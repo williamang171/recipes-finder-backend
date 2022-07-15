@@ -7,8 +7,10 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import Link from "@mui/material/Link";
 import useAuth from 'hooks/useHttpAPI/useAuth';
+import Alert from "@mui/material/Alert";
 import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
@@ -43,6 +45,13 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
+                <Alert
+                    severity="info"
+                    sx={{ mt: 4, mb: 1 }}
+                >
+                    You can log in as a demo user with <b>demo@example.com
+                    </b> as the email and <b>password123&</b> as the password
+                </Alert>
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
@@ -80,7 +89,7 @@ export default function SignIn() {
                     <Grid container>
 
                         <Grid item>
-                            <Link to="/auth/sign-up">
+                            <Link to="/auth/sign-up" component={RouterLink}>
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>

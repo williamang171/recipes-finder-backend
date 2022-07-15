@@ -8,7 +8,7 @@ import constants from "./styles";
 export default function Header() {
     return <Toolbar sx={{ background: constants.color.main }}>
         <Box color="inherit" />
-        <Book sx={{ mr: 1 }} color="primary" />
+        <Book sx={{ mr: 1 }} color="action" />
         <Typography
             component="h2"
             variant="h6"

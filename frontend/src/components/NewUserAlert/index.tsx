@@ -35,8 +35,8 @@ export default React.memo(function NewUserAlert() {
                     You can also bookmark recipes after you have logged in to the application.
                 </li>
                 <li>
-                    You can log in as a demo user with <b>email@example.com
-                    </b> as email and <b>exampleUser123^</b> as password
+                    You can log in as a demo user with <b>demo@example.com
+                    </b> as the email and <b>password123&</b> as the password
                 </li>
             </ul>
 

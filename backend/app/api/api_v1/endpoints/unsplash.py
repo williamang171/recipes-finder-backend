@@ -8,7 +8,7 @@ api_router = APIRouter()
 
 
 async def search_unsplash_photos(*, query: str, page: int, per_page: int, settings: config.Settings = Depends(get_settings)):
-    print(settings)
+    # print(settings)
     async with httpx.AsyncClient() as client:
         response = await client.get(  # 4
             f"https://api.unsplash.com/search/photos?query={query}&page={page}&per_page={per_page}",

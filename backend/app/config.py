@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     unsplash_client_id: str
     jwt_secret_key: str
     recaptcha_secret: str
+    sqlalchemy_database_uri: str = "sqlite:///example.db"
 
     class Config:
         env_file = ".env"
+
+
+settings = Settings()

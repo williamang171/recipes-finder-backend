@@ -9,8 +9,8 @@ from app.models import auth, recipe
 from .database import engine
 from app.api.api_v1.api import api_router
 
-auth.Base.metadata.create_all(bind=engine)
-recipe.Base.metadata.create_all(bind=engine)
+# auth.Base.metadata.create_all(bind=engine)
+# recipe.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Recipe API")
 
 # Project Directories

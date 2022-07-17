@@ -1,8 +1,9 @@
-from pydantic import BaseModel, validator, EmailStr
+from pydantic import BaseModel, constr, validator, EmailStr
 
 
 class UserBase(BaseModel):
     email: EmailStr
+    name: constr(min_length=2, max_length=100)
 
 
 special_character = "!@#$%^&*"

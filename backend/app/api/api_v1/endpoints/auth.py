@@ -31,7 +31,7 @@ def get_password_hash(password):
 
 
 def authenticate_user(db: Session, username: str, password: str):
-    user = crud_auth.get_user_by_email(db, email=username)
+    user = crud_auth.get_user_by_email_normalized(db, email=username)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -55,7 +55,7 @@ api_router = APIRouter()
 
 @api_router.post("/register", response_model=User)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = crud_auth.get_user_by_email(db, email=user.email)
+    db_user = crud_auth.get_user_by_email_normalized(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     return crud_auth.create_user(db=db, user=user)

@@ -1,19 +1,12 @@
-import React from "react";
-import { CardMedia, Grid, Box, Typography } from "@mui/material"
-import InfoIcon from '@mui/icons-material/Info';
+import { CardMedia, Box } from "@mui/material"
 import { useTheme } from "@mui/system";
-import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 
 import { useMediaQuery } from '@mui/material';
-import { blue, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 
 interface Props {
     imageUrl: string | null
 }
-
-const Placeholder = React.memo(() => {
-    return null
-})
 
 export default function ImageToPredict(props: Props) {
     const { imageUrl } = props;
@@ -31,7 +24,7 @@ export default function ImageToPredict(props: Props) {
                 minWidth: "320px",
                 objectFit: "contain"
             }} /> :
-                <Placeholder />
+                <Box sx={{ minHeight: "400px" }} />
             }
         </Box>
     )

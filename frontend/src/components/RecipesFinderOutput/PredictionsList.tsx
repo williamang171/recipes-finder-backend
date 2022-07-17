@@ -1,5 +1,4 @@
 import React from "react";
-import { Typography } from '@mui/material';
 import { useTheme } from "@mui/system";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,7 +8,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import InfoIcon from '@mui/icons-material/Info';
 import { useMediaQuery } from '@mui/material';
 import { grey } from "@mui/material/colors";
 
@@ -23,30 +21,7 @@ interface Props {
 }
 
 const Placeholder = React.memo(() => {
-
-    return <Box sx={{
-        display: "flex",
-        pl: 3,
-        pt: 3,
-        height: "460px",
-        width: "100%",
-        maxWidth: "100%",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
-        flexWrap: "wrap",
-    }}>
-        <div style={{ width: 300, height: "auto", display: "flex", alignItems: "center" }}>
-            <img style={{ width: "100%", height: "auto" }} src="/placeholder.svg" />
-        </div>
-        <div style={{ marginTop: "4px" }}>
-            <Typography variant="caption" sx={{
-                width: "100%",
-                textAlign: "center"
-            }}>Predictions will be shown here after submission</Typography>
-        </div>
-
-    </Box>
+    return null;
 })
 
 export default function ImageToPredict(props: Props) {

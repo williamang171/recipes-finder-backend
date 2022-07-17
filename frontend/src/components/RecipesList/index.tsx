@@ -1,5 +1,6 @@
 
 import { Grid, Box } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 import RecipeListItem from "components/RecipesList/RecipeListItem";
 import { Recipe } from "interfaces/types";
@@ -14,6 +15,8 @@ interface Props {
 
 export default function RecipesList(props: Props) {
     const { recipes = [], empty, listItemExtra, loading = false } = props;
+    const theme = useTheme();
+    const belowSm = useMediaQuery(theme.breakpoints.down('sm'));
 
     if (recipes.length === 0 && loading === false && empty) {
         return empty();
@@ -26,7 +29,9 @@ export default function RecipesList(props: Props) {
             >
                 {recipes.map((r, i) => {
                     return (
-                        <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={i}>
+                        <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={i} sx={belowSm ? {
+                            maxWidth: "calc(100vw - 48px)"
+                        } : {}}>
                             <RecipeListItem extra={listItemExtra} name={r.name} url={r.url} imageUrl={r.image_url} mealDbId={r.mealdb_id} id={r.id} />
                         </Grid>
                     )

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -9,28 +8,39 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import useAuth from 'hooks/useHttpAPI/useAuth';
 import { Link, useNavigate } from "react-router-dom"
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import yupSchema from 'yup-schema-common';
+
+type FormData = {
+    email: string;
+    password: string;
+}
+
+const schema = yup.object({
+    email: yupSchema.email,
+    password: yupSchema.password
+}).required();
 
 export default function SignUp() {
     const { register } = useAuth();
     const navigate = useNavigate();
+    const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
+        resolver: yupResolver(schema)
+    });
 
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const onSubmit = (data: FormData) => {
         register({
-            email: email,
-            password: password
+            email: data.email,
+            password: data.password
         }, () => {
             navigate("/auth/sign-in")
         })
     };
 
     return (
-
         <Container component="main" maxWidth="xs">
-
             <Box
                 sx={{
                     marginTop: 8,
@@ -45,7 +55,7 @@ export default function SignUp() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
                         {/* <Grid item xs={12} sm={6}>
                                 <TextField
@@ -69,28 +79,28 @@ export default function SignUp() {
                                 />
                             </Grid> */}
                         <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
+                            <Controller
                                 name="email"
-                                autoComplete="email"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
+                                control={control}
+                                rules={{
+                                    required: "Email is required"
+                                }}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <TextField fullWidth label="Email Address" {...field} error={errors.email ? true : false} helperText={errors.email ? errors.email.message : null} />
+                                )}
                             />
+
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
+                            <Controller
                                 name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="new-password"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
+
+                                control={control}
+                                defaultValue=""
+                                render={({ field, fieldState }) => (<TextField type="password" fullWidth label="Password" {...field}
+                                    error={errors.password ? true : false} helperText={errors.password ? errors.password.message : null}
+                                />)}
                             />
                         </Grid>
 

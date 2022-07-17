@@ -1,4 +1,0 @@
-export const SET_PREDICTIONS = "SET_PREDICTIONS";
-export const CLEAR_PREDICTIONS = "CLEAR_PREDICTIONS";
-export const SET_IMG = "SET_IMG";
-export const CLEAR_IMG = "CLEAR_IMG";

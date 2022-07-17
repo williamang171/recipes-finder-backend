@@ -4,7 +4,6 @@ import { SnackbarProvider } from "notistack";
 
 import SavedRecipesPage from "pages/SavedRecipesPage";
 import FinderPage from "pages/FinderPage"
-import DebugAuthPage from "pages/DebugAuthPage";
 import IndexPage from "pages/IndexPage";
 import SettingsPage from "pages/SettingsPage";
 import ToggleColorMode from "components/ToggleColorMode";
@@ -24,7 +23,6 @@ function App() {
           <Route path="/" element={<IndexPage />} />
           <Route path="/finder" element={<FinderPage />} />
           <Route path="/saved-recipes" element={<SavedRecipesPage />} />
-          <Route path="/debug-auth" element={<DebugAuthPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/auth/sign-up" element={<SignUp />} />
           <Route path="/auth/sign-in" element={<SignIn />} />

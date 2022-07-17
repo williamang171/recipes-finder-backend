@@ -12,18 +12,32 @@ import Link from "@mui/material/Link";
 import useAuth from 'hooks/useHttpAPI/useAuth';
 import Alert from "@mui/material/Alert";
 import { useNavigate } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from "yup";
+import yupSchema from 'yup-schema-common';
+
+type FormData = {
+    email: string;
+    password: string;
+}
+
+const schema = yup.object({
+    email: yupSchema.email,
+    password: yup.string().required()
+}).required();
 
 export default function SignIn() {
     const { login } = useAuth();
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
     const navigate = useNavigate();
+    const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
+        resolver: yupResolver(schema)
+    });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const onSubmit = (data: FormData) => {
         login({
-            username: email,
-            password: password
+            username: data.email,
+            password: data.password
         }, () => {
             navigate("/finder")
         })
@@ -52,32 +66,26 @@ export default function SignIn() {
                     You can log in as a demo user with <b>demo@example.com
                     </b> as the email and <b>password123&</b> as the password
                 </Alert>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
+                <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+                    <Controller
                         name="email"
-                        autoComplete="email"
-                        autoFocus
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        control={control}
+                        rules={{
+                            required: "Email is required"
+                        }}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField sx={{ mb: 2 }} fullWidth label="Email Address" {...field} error={errors.email ? true : false} helperText={errors.email ? errors.email.message : null} />
+                        )}
                     />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
+                    <Controller
                         name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (<TextField type="password" fullWidth label="Password" {...field}
+                            error={errors.password ? true : false} helperText={errors.password ? errors.password.message : null}
+                        />)}
                     />
-
                     <Button
                         type="submit"
                         fullWidth

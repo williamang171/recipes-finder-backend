@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Link from "@mui/material/Link";
-import { useMediaQuery, useTheme } from "@mui/material";
 
 import { Recipe } from "interfaces/types";
 const StyledTypography = styled(Typography)(({ theme }) => ({
@@ -31,8 +30,6 @@ interface Props {
 
 export default function RecipeListItem(props: Props) {
     const { url, imageUrl, name, extra, mealDbId, id } = props;
-    const theme = useTheme();
-    const belowSm = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <Card sx={{
@@ -52,12 +49,6 @@ export default function RecipeListItem(props: Props) {
             <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, maxWidth: '100%', width: "100%", overflow: 'hidden' }}>
                 <CardContent sx={{ flex: '1 0 auto', overflow: 'hidden' }}>
                     <StyledTypography noWrap variant="h6" sx={{
-                        // textOverflow: 'ellipsis',
-                        // whiteSpace: 'nowrap',
-                        // overflow: "hidden",
-                        // textDecoration: "none",
-                        // display: "block",
-                        // maxWidth: "100%",
                         color: (theme) => theme.palette.primary.main
                     }}
                     >

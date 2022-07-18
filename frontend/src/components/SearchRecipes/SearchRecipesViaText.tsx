@@ -64,7 +64,7 @@ export default function SearchRecipesViaText() {
             autoFocus
         />
         <RadioSearchType onChange={handleRadioChange} value={searchType} />
-        <RecipesList loading={loading} empty={renderEmpty} recipes={mealsView} listItemExtra={listItemExtra} />
+        <RecipesList empty={renderEmpty} recipes={mealsView} listItemExtra={listItemExtra} />
         <Box sx={{ mb: 2 }} />
     </Box>
 }

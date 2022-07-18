@@ -8,7 +8,6 @@ import DialogContent from '@mui/material/DialogContent';
 import CloseIcon from "@mui/icons-material/Close"
 
 import RecipesList from "components/RecipesList";
-import GlobalLoader from "components/GlobalLoader";
 import useMealDb, { SEARCH_TYPE } from "hooks/useHttpAPI/useMealDb";
 import RadioSearchType from "./RadioSearchType";
 import useListItemExtraBookmark from "./useListItemExtraBookmark";
@@ -23,9 +22,9 @@ interface SearchRecipesProps {
 export default function SearchRecipes(props: SearchRecipesProps) {
     const [searchType, setSearchType] = useState(SEARCH_TYPE.INGREDIENT)
     const { open, setOpen, searchQuery } = props;
-    const { getMeals, mealsView, loading: loadingMeals, reset: resetUseMealDb, emptyResults } = useMealDb();
+    const { getMeals, mealsView, reset: resetUseMealDb, emptyResults } = useMealDb();
 
-    const { listItemExtra, getRecipesPending } = useListItemExtraBookmark({
+    const { listItemExtra } = useListItemExtraBookmark({
         fetchSavedRecipes: open
     });
 
@@ -97,7 +96,7 @@ export default function SearchRecipes(props: SearchRecipesProps) {
             <DialogContent>
                 <RadioSearchType onChange={handleRadioChange} value={searchType} />
                 <RecipesList empty={renderEmpty} recipes={mealsView} listItemExtra={listItemExtra} />
-                <GlobalLoader loading={loadingMeals || getRecipesPending} />
+
             </DialogContent>
         </Dialog>
 

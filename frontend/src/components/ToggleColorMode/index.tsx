@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { useMemo, useEffect, createContext, useState } from "react";
 
 import { grey, blue, blueGrey } from "@mui/material/colors";
 import { ThemeProvider, createTheme, alpha } from '@mui/material/styles';
 
-export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
+export const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
 interface Props {
     children: React.ReactNode
@@ -31,8 +31,8 @@ export const getDesignTokens = (mode: 'light' | 'dark') =>
 });
 
 export default function ToggleColorMode(props: Props) {
-    const [mode, setMode] = React.useState<'light' | 'dark'>('light');
-    const colorMode = React.useMemo(
+    const [mode, setMode] = useState<'light' | 'dark'>('light');
+    const colorMode = useMemo(
         () => ({
             toggleColorMode: () => {
                 setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
@@ -41,17 +41,18 @@ export default function ToggleColorMode(props: Props) {
         [],
     );
 
-    // Update the theme only if the mode changes
-    // const theme = React.useMemo(
-    //     () =>
-    //         createTheme({
-    //             palette: {
-    //                 mode,
-    //             },
-    //         }),
-    //     [mode],
-    // );
-    const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+    useEffect(() => {
+        const colorMode = localStorage.getItem("colorMode") || "light";
+        if (colorMode === "dark") {
+            setMode("dark");
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem("colorMode", mode);
+    }, [mode])
+
+    const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
     return (
         <ColorModeContext.Provider value={colorMode}>

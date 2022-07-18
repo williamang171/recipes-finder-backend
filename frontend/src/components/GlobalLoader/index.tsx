@@ -1,16 +1,14 @@
 import { Backdrop, CircularProgress, Fade } from "@mui/material"
+import { GlobalLoadingContext } from "contexts/GlobalLoadingContext";
+import { useContext } from "react";
 
-interface Props {
-    loading: boolean
-}
-
-export default function GlobalLoader(props: Props) {
-    const { loading } = props;
+export default function GlobalLoader() {
+    const { loading } = useContext(GlobalLoadingContext)
     return (
         <Fade
             in={loading === true}
             style={{
-                transitionDelay: loading === true ? '500ms' : '0ms',
+                transitionDelay: loading === true ? '200ms' : '0ms',
             }}
             unmountOnExit
         >
@@ -20,6 +18,5 @@ export default function GlobalLoader(props: Props) {
                 <CircularProgress color="inherit" />
             </Backdrop>
         </Fade>
-
     )
 }

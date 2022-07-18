@@ -47,7 +47,7 @@ interface Props {
 export default function useListItemExtraBookmark(props: Props) {
     const { fetchSavedRecipes } = props;
     const { isAuthenticated } = useContext(AuthContext);
-    const { createRecipe, getRecipes: getSavedRecipes, recipes: savedRecipes = [], removeRecipe, pending: reqPending } = useRecipes();
+    const { createRecipe, getRecipes: getSavedRecipes, recipes: savedRecipes = [], removeRecipe } = useRecipes();
 
     useEffect(() => {
         if (isAuthenticated && fetchSavedRecipes) {
@@ -89,6 +89,5 @@ export default function useListItemExtraBookmark(props: Props) {
 
     return {
         listItemExtra,
-        getRecipesPending: reqPending
     }
 }

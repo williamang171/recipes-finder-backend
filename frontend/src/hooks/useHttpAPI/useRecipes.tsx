@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 
 import { Recipe } from "interfaces/types";
 import { useSnackbar } from 'notistack';
 import useHandleHttpRequestError from 'hooks/useHandleHttpRequestError';
+import { GlobalLoadingContext } from "contexts/GlobalLoadingContext";
 
 const apiBasePath = "/api/v1/recipes";
 
@@ -11,7 +12,8 @@ function useRecipes() {
     const { handleError } = useHandleHttpRequestError();
     const { enqueueSnackbar } = useSnackbar();
     const [recipes, setRecipes] = useState<Array<Recipe>>([]);
-    const [pending, setPending] = useState(false);
+    // const [pending, setPending] = useState(false);
+    const { setLoading } = useContext(GlobalLoadingContext);
 
     const getOptions = useCallback(() => {
         const t = localStorage.getItem("token");
@@ -23,7 +25,7 @@ function useRecipes() {
     }, []);
 
     const createRecipe = useCallback(async (values: Recipe) => {
-        setPending(true);
+        setLoading(true);
         axios.post(`${apiBasePath}/`, values, getOptions())
             .then((res) => {
                 const newRecipes = [
@@ -32,15 +34,15 @@ function useRecipes() {
                 ]
                 setRecipes(newRecipes);
                 enqueueSnackbar("Recipe saved");
-                setPending(false);
+                setLoading(false);
             }).catch(err => {
-                setPending(false);
+                setLoading(false);
                 handleError(err);
             })
-    }, [getOptions, recipes, enqueueSnackbar, setPending, handleError])
+    }, [getOptions, recipes, enqueueSnackbar, setLoading, handleError])
 
     const removeRecipe = useCallback(async (id) => {
-        setPending(true);
+        setLoading(true);
         axios.delete(`${apiBasePath}/${id}`, getOptions())
             .then(() => {
                 const newRecipes = recipes.filter((r) => {
@@ -48,32 +50,31 @@ function useRecipes() {
                 })
                 setRecipes(newRecipes);
                 enqueueSnackbar("Recipe removed");
-                setPending(false);
+                setLoading(false);
             }).catch((err) => {
-                setPending(false);
+                setLoading(false);
                 handleError(err);
             })
-    }, [getOptions, recipes, enqueueSnackbar, setPending, handleError])
+    }, [getOptions, recipes, enqueueSnackbar, setLoading, handleError])
 
     const getRecipes = useCallback(async () => {
-        setPending(true);
+        setLoading(true);
         // const options = await getOptions();
         axios.get(`${apiBasePath}/`, getOptions())
             .then((res) => {
-                setPending(false);
+                setLoading(false);
                 setRecipes(res.data.results)
             }).catch((err) => {
-                setPending(false);
+                setLoading(false);
                 handleError(err);
             })
-    }, [getOptions, setPending, handleError])
+    }, [getOptions, setLoading, handleError])
 
     return {
         recipes,
         createRecipe,
         getRecipes,
-        removeRecipe,
-        pending
+        removeRecipe
     }
 }
 

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -18,7 +18,7 @@ export default function RecipesFinderInput() {
     const { imageUrl, tab } = useAppSelector((state) => {
         return {
             imageUrl: state.recipesFinder.imageUrl,
-            tab: state.recipesFinder.tab
+            tab: state.recipesFinder.tab,
         }
     })
 
@@ -35,6 +35,12 @@ export default function RecipesFinderInput() {
     const dispatchSetPredictions = useCallback((predictions: Array<Prediction>) => {
         dispatch(setPredictions(predictions));
     }, [dispatch])
+
+    useEffect(() => {
+        return function reset() {
+            dispatch(setTab(0));
+        }
+    }, [])
 
     return (
         <Box sx={{ width: '100%' }}>

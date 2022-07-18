@@ -11,7 +11,7 @@ import { AuthContext } from "contexts/AuthContext";
 
 export default function SavedRecipesPage() {
     const { isAuthenticated } = useContext(AuthContext);
-    const { recipes, getRecipes, removeRecipe, pending } = useRecipes();
+    const { recipes, getRecipes, removeRecipe } = useRecipes();
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -49,6 +49,6 @@ export default function SavedRecipesPage() {
     }, [isAuthenticated]);
 
     return <Layout>
-        {<RecipesList empty={renderEmpty} loading={pending} recipes={recipes} listItemExtra={listItemExtra} />}
+        {<RecipesList empty={renderEmpty} recipes={recipes} listItemExtra={listItemExtra} />}
     </Layout>
 }

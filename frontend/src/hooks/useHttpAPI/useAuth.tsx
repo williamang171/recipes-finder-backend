@@ -24,7 +24,7 @@ function useAuth() {
                 if (successCallback) {
                     successCallback();
                 }
-            }).catch(err => {
+            }).catch((err) => {
                 setPending(false);
                 handleError(err);
             })

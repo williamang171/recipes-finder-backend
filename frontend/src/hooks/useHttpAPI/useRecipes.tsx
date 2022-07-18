@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 
 import { Recipe } from "interfaces/types";
 import { useSnackbar } from 'notistack';
-import useHandleHttpRequestError from '../useHandleHttpRequestError';
+import useHandleHttpRequestError from 'hooks/useHandleHttpRequestError';
 
 const apiBasePath = "/api/v1/recipes";
 
@@ -23,7 +23,6 @@ function useRecipes() {
     }, []);
 
     const createRecipe = useCallback(async (values: Recipe) => {
-
         setPending(true);
         axios.post(`${apiBasePath}/`, values, getOptions())
             .then((res) => {

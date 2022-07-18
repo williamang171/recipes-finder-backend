@@ -17,7 +17,7 @@ from app import config
 # to get a string like this run:
 # openssl rand -hex 32
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 3
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

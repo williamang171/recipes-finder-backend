@@ -16,9 +16,11 @@ import yupSchema from 'yup-schema-common';
 type FormData = {
     email: string;
     password: string;
+    name: string;
 }
 
 const schema = yup.object({
+    name: yup.string().required().min(2).max(100).label("Name"),
     email: yupSchema.email,
     password: yupSchema.password
 }).required();
@@ -32,6 +34,7 @@ export default function SignUp() {
 
     const onSubmit = (data: FormData) => {
         register({
+            name: data.name,
             email: data.email,
             password: data.password
         }, () => {
@@ -57,34 +60,20 @@ export default function SignUp() {
                 </Typography>
                 <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
-                        {/* <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name"
-                                    autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
-                                />
-                            </Grid> */}
+                        <Grid item xs={12}>
+                            <Controller
+                                name="name"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <TextField fullWidth label="Name" {...field} error={errors.name ? true : false} helperText={errors.name ? errors.name.message : null} />
+                                )}
+                            />
+                        </Grid>
                         <Grid item xs={12}>
                             <Controller
                                 name="email"
                                 control={control}
-                                rules={{
-                                    required: "Email is required"
-                                }}
                                 defaultValue=""
                                 render={({ field }) => (
                                     <TextField fullWidth label="Email Address" {...field} error={errors.email ? true : false} helperText={errors.email ? errors.email.message : null} />
@@ -95,7 +84,6 @@ export default function SignUp() {
                         <Grid item xs={12}>
                             <Controller
                                 name="password"
-
                                 control={control}
                                 defaultValue=""
                                 render={({ field, fieldState }) => (<TextField type="password" fullWidth label="Password" {...field}

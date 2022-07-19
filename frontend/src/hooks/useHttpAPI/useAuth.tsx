@@ -12,45 +12,45 @@ function useAuth() {
     const { setIsAuthenticated, setUser, user, isAuthenticated } = useContext(AuthContext);
     const { handleError } = useHandleHttpRequestError();
     const { enqueueSnackbar } = useSnackbar();
-    const [pending, setPending] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const register = useCallback(async (values: User, successCallback?: Function) => {
-        setPending(true);
+        setLoading(true);
         axios.post(`${apiBasePath}/register`, values)
             .then((res) => {
                 setUser(res.data);
                 enqueueSnackbar("Sign up successful, you can now sign in with your credentials");
-                setPending(false);
+                setLoading(false);
                 if (successCallback) {
                     successCallback();
                 }
             }).catch((err) => {
-                setPending(false);
+                setLoading(false);
                 handleError(err);
             })
-    }, [enqueueSnackbar, setPending, handleError])
+    }, [enqueueSnackbar, setLoading, handleError])
 
     const login = useCallback(async (values: UserLogin, successCallback?: Function) => {
-        setPending(true);
+        setLoading(true);
         const formData = new FormData();
         formData.append("username", values.username);
         formData.append("password", values.password);
         axios.post(`${apiBasePath}/token`, formData)
             .then((res) => {
-                setPending(false);
+                setLoading(false);
                 localStorage.setItem("token", res.data.access_token);
                 setIsAuthenticated(true);
                 if (successCallback) {
                     successCallback();
                 }
             }).catch(err => {
-                setPending(false);
+                setLoading(false);
                 handleError(err);
             })
-    }, [setPending, handleError]);
+    }, [setLoading, handleError]);
 
     const loadCurrentUser = useCallback(async () => {
-        setPending(true);
+        setLoading(true);
         const token = localStorage.getItem("token");
         axios.get(`${apiBasePath}/me`, {
             headers: {
@@ -58,14 +58,14 @@ function useAuth() {
             }
         })
             .then((res) => {
-                setPending(false);
+                setLoading(false);
                 setUser(res.data);
                 setIsAuthenticated(true);
             }).catch(err => {
-                setPending(false);
+                setLoading(false);
                 handleError(err);
             })
-    }, [setPending, handleError])
+    }, [setLoading, handleError])
 
     const logout = useCallback(() => {
         localStorage.removeItem("token");
@@ -78,7 +78,7 @@ function useAuth() {
         login,
         logout,
         user,
-        pending,
+        loading,
         loadCurrentUser,
         isAuthenticated
     }

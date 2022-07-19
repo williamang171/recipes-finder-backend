@@ -1,5 +1,4 @@
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -7,11 +6,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import useAuth from 'hooks/useHttpAPI/useAuth';
-import { Link, useNavigate } from "react-router-dom"
+import { Link as RouterLink, useNavigate } from "react-router-dom"
+import Link from "@mui/material/Link";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import yupSchema from 'yup-schema-common';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 type FormData = {
     email: string;
@@ -26,7 +27,7 @@ const schema = yup.object({
 }).required();
 
 export default function SignUp() {
-    const { register } = useAuth();
+    const { register, loading } = useAuth();
     const navigate = useNavigate();
     const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(schema)
@@ -93,17 +94,18 @@ export default function SignUp() {
                         </Grid>
 
                     </Grid>
-                    <Button
+                    <LoadingButton
                         type="submit"
+                        loading={loading}
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
                         Sign Up
-                    </Button>
+                    </LoadingButton>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link to="/auth/sign-in">
+                            <Link to="/auth/sign-in" component={RouterLink}>
                                 Already have an account? Sign in
                             </Link>
                         </Grid>

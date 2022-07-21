@@ -1,6 +1,11 @@
 # Recipes Finder
 
-Find recipes by providing image url, uploading image, or providing text based queries 
+Find recipes by providing image url, uploading image, or providing text based queries
+
+https://user-images.githubusercontent.com/70843788/180226142-426d0c55-19e6-45d2-9421-8079ed404b38.mp4
+
+## Live Demo
+[Demo](https://mysterious-cliffs-41974.herokuapp.com/)
 
 ## Installation
 

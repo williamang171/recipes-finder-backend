@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo, useCallback } from "react";
 import { ReCAPTCHA } from "react-google-recaptcha";
 
-const siteKey = "6Lcje5QfAAAAAKtrcKB0-7tw0972Uc00xFSgHUpP";
+const siteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY || "";
 
 export default function useGRecaptcha() {
     const [value, setValue] = useState("");

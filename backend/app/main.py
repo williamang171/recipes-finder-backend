@@ -4,10 +4,9 @@ from pathlib import Path
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, File, UploadFile
-
-from app.models import auth, recipe
 from .database import engine
 from app.api.api_v1.api import api_router
+
 
 # auth.Base.metadata.create_all(bind=engine)
 # recipe.Base.metadata.create_all(bind=engine)

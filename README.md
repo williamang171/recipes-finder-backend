@@ -92,6 +92,28 @@ alembic history
 ### Dark Theme
 - You can switch between light / dark theme by clicking on the brightness icon at the nav bar
 
+## Using docker-compose to run all the applications
+The installation section earlier describes how to run each application independently. However if you want to run everything using docker-compose you can follow the steps here.
+
+If you are using a Mac with M1 chip, run the following command first.
+```sh
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+```
+
+Run the following command to build the docker containers
+
+```sh
+docker-compose -f docker-compose-all.yml build
+```
+
+Then run the following command to run the containers
+
+```sh
+docker-compose -f docker-compose-all.yml up
+```
+
+The application should be available on localhost:8000
+
 ## License
 Distributed under the MIT license. See ``LICENSE`` for more information.
  

@@ -1,8 +1,9 @@
 import React from "react";
 import { Alert, AlertTitle } from "@mui/material";
 
-export default React.memo(function NewUserAlert() {
+import DemoUserMessage from "components/DemoUserMessage";
 
+export default React.memo(function NewUserAlert() {
     return <Alert
         severity="info"
 
@@ -17,11 +18,8 @@ export default React.memo(function NewUserAlert() {
                 You can also bookmark recipes after you have signed in to the application.
             </li>
             <li>
-                You can sign in as a demo user with <b>demo@example.com
-                </b> as the email and <b>password123&</b> as the password
+                <DemoUserMessage />
             </li>
         </ul>
-
     </Alert>
-
 });

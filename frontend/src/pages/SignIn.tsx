@@ -17,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from "yup";
 import yupSchema from 'yup-schema-common';
+import DemoUserMessage from "components/DemoUserMessage"
 
 type FormData = {
     email: string;
@@ -64,8 +65,7 @@ export default function SignIn() {
                     severity="info"
                     sx={{ mt: 4, mb: 1 }}
                 >
-                    You can log in as a demo user with <b>demo@example.com
-                    </b> as the email and <b>password123&</b> as the password
+                    <DemoUserMessage />
                 </Alert>
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
                     <Controller

@@ -1,0 +1,32 @@
+name: Recipes Finder Continuous Integration
+
+on:
+  pull_request:
+    branches: [ master ]
+
+env:
+  RECAPTCHA_SECRET: secret
+  CLARIFAI_APP_ID: secret
+  CLARIFAI_USER_ID: secret
+  CLARIFAI_KEY: secret
+  UNSPLASH_CLIENT_ID: secret
+  JWT_SECRET_KEY: secret
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Test with pytest
+        run: |
+          cd backend && pytest

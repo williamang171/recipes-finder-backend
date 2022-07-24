@@ -6,4 +6,4 @@ api_router = APIRouter()
 
 @api_router.get("/")
 def hello_world():
-    return {"msg": "Hello World"}
+    return {"msg": "Hello World Updated"}

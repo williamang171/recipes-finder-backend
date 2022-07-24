@@ -14,6 +14,7 @@ https://user-images.githubusercontent.com/70843788/180226142-426d0c55-19e6-45d2-
 OS X & Linux:
 
 ```sh
+python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cd backend
@@ -22,14 +23,15 @@ uvicorn app.main:app --reload
 
 Windows:
 ```sh
+python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 cd backend
 uvicorn app.main:app --reload
 ```
 
-The backend app should be running on localhost:8000, 
-you can visit localhost:8000/docs for the API documentation
+The backend app should be running on [localhost:8000](localhost:8000), 
+you can visit [localhost:8000/docs](localhost:8000/docs) for the API documentation
 
 <br />
 
@@ -56,7 +58,7 @@ You can then connect to the postgres database with the credentials provided in t
 <br />
 
 ### Applying database migrations
-Make sure you have activated the virtual environment as mentioned in the earlier steps, then run
+Make sure you have activated the virtual environment as mentioned in the earlier steps, then cd into /backend folder, then run
 
 ```sh
 alembic upgrade head

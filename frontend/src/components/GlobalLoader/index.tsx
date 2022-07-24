@@ -13,7 +13,7 @@ export default function GlobalLoader() {
             unmountOnExit
         >
             <Backdrop open={loading} sx={{
-                zIndex: (theme) => theme.zIndex.drawer + 2
+                zIndex: (theme) => theme.zIndex.modal + 1
             }}>
                 <CircularProgress color="inherit" />
             </Backdrop>

@@ -23,7 +23,7 @@ const items = [
 ]
 
 export default function Highlights() {
-    return <Container sx={{ textAlign: "center", pt: 12, pb: 4 }}>
+    return <Container sx={{ textAlign: "center", pt: 16, pb: 12 }}>
         <Grid container columnSpacing={12} rowSpacing={4}>
             {items.map(i => {
                 return <Grid item xs={12} sm={12} md={12} lg={4} key={i.title}>

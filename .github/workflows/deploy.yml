@@ -1,0 +1,27 @@
+name: Deploy Recipes Finder
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - run:
+          name: Build image
+          command: |
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            make build-app-heroku
+      - run:
+          name: Push Image to Heroku
+          command: |
+            make push-app-heroku
+      - run:
+          name: Release to Heroku
+          command: |
+            make release-heroku

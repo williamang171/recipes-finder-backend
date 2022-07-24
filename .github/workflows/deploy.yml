@@ -12,16 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - run:
-          name: Build image
-          command: |
+      - name: Build image
+        run: |
             sudo curl https://cli-assets.heroku.com/install.sh | sh
             make build-app-heroku
-      - run:
-          name: Push Image to Heroku
-          command: |
+      - name: Push Image to Heroku
+        run: |
             make push-app-heroku
-      - run:
-          name: Release to Heroku
-          command: |
+      - name: Release to Heroku
+        run: |
             make release-heroku

@@ -9,6 +9,27 @@ https://user-images.githubusercontent.com/70843788/180226142-426d0c55-19e6-45d2-
 
 ## Installation
 
+### Environment Variables
+Create a `.env` file inside the `backend` folder, copy over the content of `.env.example` and replace with actual variables.
+
+`CLARIFAI_APP_ID`, `CLARIFAI_USER_ID`, `CLARIFAI_KEY`: You can get these values by signing up an account at [Clarifai](https://www.clarifai.com/) and creating an app
+
+`RECAPTCHA_SECRET`: You can get a secret key by creating a new site at [Google reCAPTCHA](https://www.google.com/recaptcha/admin/site/480947030)
+
+`JWT_SECRET_KEY`: You can generate a value for this with 
+```sh
+openssl rand -hex 32
+```
+
+`UNSPLASH_CLIENT_ID` (Optional) : You can get an API key by registering an account at [Unsplash](https://unsplash.com/oauth/applications), if you are not planning to test out the unsplash part of the app you can simply omit this.
+
+<br />
+
+### Environment Variables (Frontend)
+Replace the `REACT_APP_RECAPTCHA_SITE_KEY` with your own reCAPTCHA site key that matches with the secret key in the backend application
+
+<br />
+
 ### Running Backend
 
 OS X & Linux:
@@ -92,6 +113,8 @@ alembic history
 ### Dark Theme
 - You can switch between light / dark theme by clicking on the brightness icon at the nav bar
 
+<br />
+
 ## Using docker-compose to run all the applications
 The installation section earlier describes how to run each application independently. However if you want to run everything using docker-compose you can follow the steps here.
 
@@ -113,6 +136,19 @@ docker-compose -f docker-compose-all.yml up
 ```
 
 The application should be available on localhost:8000
+
+Then run the following command to apply database migrations
+```sh
+docker-compose exec backend alembic upgrade head
+```
+
+Verify if migrations have been applied
+
+```sh
+docker-compose exec backend alembic history
+```
+
+
 
 ## License
 Distributed under the MIT license. See ``LICENSE`` for more information.

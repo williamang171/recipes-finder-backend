@@ -3,6 +3,10 @@ name: Deploy Recipes Finder
 on:
   push:
     branches: [ master ]
+    paths:
+      - backend/**
+      - Dockerfile
+      - requirements.txt
 
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}

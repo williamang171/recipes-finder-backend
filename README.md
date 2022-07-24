@@ -152,4 +152,5 @@ docker-compose exec backend alembic history
 
 ## License
 Distributed under the MIT license. See ``LICENSE`` for more information.
- 
+
+<br />

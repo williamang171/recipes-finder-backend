@@ -154,3 +154,12 @@ docker-compose exec backend alembic history
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
 <br />
+
+## Reference / Learning Materials
+- [FastAPI Official Documentation](https://fastapi.tiangolo.com/)
+- [The FastAPI Ultimate Tutorial](https://christophergs.com/python/2021/12/04/fastapi-ultimate-tutorial/)
+- [React with TypeScript](https://www.youtube.com/watch?v=ydkQlJhodio)
+- [React TypeScript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup)
+- [FastAPI with Alembic](https://testdriven.io/blog/fastapi-sqlmodel/#alembic) 
+- [Clarifai API Documentation](https://docs.clarifai.com/api-guide/predict/images)
+- [Unsplash API Documentation](https://unsplash.com/documentation)

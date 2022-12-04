@@ -34,9 +34,9 @@ export default function RecipeListItem(props: Props) {
     return (
         <Card sx={{
             display: 'flex', ':hover': {
-                boxShadow: 4, // theme.shadows[20]
+                boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
             }
-        }}>
+        }} variant="outlined">
             <a target="_blank" rel="noreferrer" href={url}>
                 <CardMedia
                     component="img"

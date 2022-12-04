@@ -18,6 +18,7 @@ import { useForm, Controller } from 'react-hook-form';
 import * as yup from "yup";
 import yupSchema from 'yup-schema-common';
 import DemoUserMessage from "components/DemoUserMessage"
+import { demoUser } from "configs/demo-user";
 
 type FormData = {
     email: string;
@@ -63,7 +64,7 @@ export default function SignIn() {
                 </Typography>
                 <Alert
                     severity="info"
-                    sx={{ mt: 4, mb: 1 }}
+                    sx={{ mt: 4, mb: 2 }}
                 >
                     <DemoUserMessage />
                 </Alert>
@@ -74,7 +75,7 @@ export default function SignIn() {
                         rules={{
                             required: "Email is required"
                         }}
-                        defaultValue=""
+                        defaultValue={demoUser.username}
                         render={({ field }) => (
                             <TextField sx={{ mb: 2 }} fullWidth label="Email Address" {...field} error={errors.email ? true : false} helperText={errors.email ? errors.email.message : null} />
                         )}
@@ -82,7 +83,7 @@ export default function SignIn() {
                     <Controller
                         name="password"
                         control={control}
-                        defaultValue=""
+                        defaultValue={demoUser.password}
                         render={({ field }) => (<TextField type="password" fullWidth label="Password" {...field}
                             error={errors.password ? true : false} helperText={errors.password ? errors.password.message : null}
                         />)}

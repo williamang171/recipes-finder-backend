@@ -30,7 +30,7 @@ export default function Hero() {
                 spacing={2}
                 justifyContent="center"
             >
-                <Button variant="contained" component="a" href="/finder">Get Started</Button>
+                <Button variant="contained" component="a" href="/auth/sign-in">Get Started</Button>
                 <Button component="a" target="_blank" href="https://github.com/williamang171/recipes-finder" variant="outlined" startIcon={<GitHubIcon />}>GitHub</Button>
             </Stack>
         </Container>

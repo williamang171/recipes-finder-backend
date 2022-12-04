@@ -2,8 +2,11 @@ import { useCallback, useEffect } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { useAppSelector, useAppDispatch } from 'hooks/useReduxHooks';
+import LinkIcon from '@mui/icons-material/Link';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import TextFieldsIcon from '@mui/icons-material/TextFields';
 
+import { useAppSelector, useAppDispatch } from 'hooks/useReduxHooks';
 import { setPredictions, setImageUrl, setTab } from "features/recipesFinder/recipesFinderSlice"
 import { Prediction } from 'interfaces/types';
 import SearchRecipesViaText from 'components/SearchRecipes/SearchRecipesViaText';
@@ -12,6 +15,10 @@ import InputViaUpload from "./InputViaUpload";
 import InputViaUrl from "./InputViaUrl";
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from 'components/ErrorFallback';
+
+const tabItemStyle = {
+    minHeight: '48px'
+}
 
 export default function RecipesFinderInput() {
     const dispatch = useAppDispatch();
@@ -45,10 +52,10 @@ export default function RecipesFinderInput() {
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={tab} onChange={handleChangeTab} aria-label="input tabs">
-                    <Tab label="Image via URL" />
-                    <Tab label="Image via Upload" />
-                    <Tab label="Text" />
+                <Tabs value={tab} onChange={handleChangeTab} aria-label="input-tabs">
+                    <Tab sx={tabItemStyle} disableTouchRipple icon={<LinkIcon />} iconPosition='start' label="Image URL" />
+                    <Tab sx={tabItemStyle} disableTouchRipple icon={<FileUploadIcon />} iconPosition='start' label="Upload Image" />
+                    <Tab sx={tabItemStyle} disableTouchRipple icon={<TextFieldsIcon />} iconPosition='start' label="Text" />
                 </Tabs>
             </Box>
             <Box sx={{ mt: 3 }} />

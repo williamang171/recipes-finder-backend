@@ -5,6 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { styled } from "@mui/material/styles";
 import { Button, Box, } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import useGRecaptcha from "hooks/useGRecaptcha";
 import { Prediction } from "interfaces/types";
 
@@ -61,7 +62,7 @@ export default function FileUpload(props: Props) {
                 <Input accept="image/*" id="file-upload" type="file" onChange={handleChange} />
                 <Button variant="outlined" component="span" sx={{
                     width: 200
-                }}>
+                }} startIcon={<FileUploadIcon />}>
                     Upload
                 </Button>
             </label>

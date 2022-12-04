@@ -2,7 +2,7 @@ name: Recipes Finder Continuous Integration
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   RECAPTCHA_SECRET: secret

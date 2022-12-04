@@ -10,7 +10,8 @@ interface ImageFinderUnsplashProps {
 }
 
 interface ImageListContentWtihEffectProps {
-    setImageUrl(imageUrl: string): any
+    setImageUrl(imageUrl: string): any;
+    handleClose: () => void;
 }
 
 const ImageListContentWithEffect = (props: ImageListContentWtihEffectProps) => {
@@ -31,14 +32,15 @@ const ImageListContentWithEffect = (props: ImageListContentWtihEffectProps) => {
     return (
         <InfiniteScroll scrollableTarget="images-finder-scrollable" dataLength={data.length} next={fetchImagesNextPage} hasMore={true} loader={<div>Loading...</div>}>
             <ImageListContent dataSource={data}
+                handleClose={props.handleClose}
                 imageOnClick={props.setImageUrl} />
         </InfiniteScroll>
     )
 }
 
 export default function ImageFinderUnsplash(props: ImageFinderUnsplashProps) {
-    return <ImageFinder renderBody={() => {
-        return <ImageListContentWithEffect setImageUrl={props.setImageUrl} />
+    return <ImageFinder renderBody={({ handleClose }) => {
+        return <ImageListContentWithEffect setImageUrl={props.setImageUrl} handleClose={handleClose} />
     }}
         description="Find an Image with Unsplash"
     />

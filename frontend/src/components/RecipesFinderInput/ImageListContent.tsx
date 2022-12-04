@@ -26,11 +26,12 @@ const StyledImageListItem = styled(ImageListItem)(({ theme }) => ({
 interface Props {
     dataSource: Array<Image>;
     imageOnClick(imageUrl: string): any;
-    notifyWhenImageOnClick?: Boolean
+    notifyWhenImageOnClick?: Boolean;
+    handleClose?: () => void;
 }
 
 export default function ImageListContent(props: Props) {
-    const { dataSource, imageOnClick, notifyWhenImageOnClick = true } = props;
+    const { dataSource, imageOnClick, notifyWhenImageOnClick = true, handleClose } = props;
     const { enqueueSnackbar } = useSnackbar();
     const theme = useTheme();
     const Over400 = useMediaQuery('(min-width:400px)');
@@ -42,7 +43,9 @@ export default function ImageListContent(props: Props) {
         if (notifyWhenImageOnClick) {
             enqueueSnackbar("Image selected");
         }
-        imageOnClick(imgForSubmit);
+        if (handleClose) {
+            handleClose();
+        } imageOnClick(imgForSubmit);
     };
 
     const cols = useMemo(() => {

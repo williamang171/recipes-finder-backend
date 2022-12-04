@@ -1,16 +1,15 @@
 
 import SearchIcon from '@mui/icons-material/Search';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import LockIcon from '@mui/icons-material/Lock';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Toolbar from '@mui/material/Toolbar';
 import {
-    NavLink,
+    NavLink, useLocation
 } from "react-router-dom";
+import { ListItemButton } from '@mui/material';
 
 const links = [
     {
@@ -37,30 +36,29 @@ const links = [
         to: "/settings",
         icon: <SettingsIcon />
     }
-]
+];
 
 export default function SideNav() {
+    const location = useLocation();
 
     return (
         <div>
             <Toolbar />
-            <List  >
+            <List >
                 {links.map((l) => {
                     return (
                         <NavLink
                             end={l.to === "/" ? true : false}
-                            className={(props) => {
-                                return `${props.isActive ? 'sidebar-nav-item-active' : 'sidebar-nav-item'}`;
-                            }}
+                            className={'sidebar-nav-item'}
                             to={l.to}
                             key={l.key}
                         >
-                            <ListItem button key={l.key}>
+                            <ListItemButton selected={location.pathname === l.to}>
                                 <ListItemIcon>
                                     {l.icon}
                                 </ListItemIcon>
                                 <ListItemText primary={l.name} />
-                            </ListItem>
+                            </ListItemButton>
                         </NavLink>
 
                     )

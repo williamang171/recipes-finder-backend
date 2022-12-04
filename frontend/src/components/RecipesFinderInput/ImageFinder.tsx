@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 interface ImageFinderProps {
     description: string,
-    renderBody?(): any,
+    renderBody?({ handleClose }: { handleClose: () => void }): any,
 }
 
 
@@ -51,7 +51,7 @@ export default function ImageFinder(props: ImageFinderProps) {
                     </IconButton>
                 </DialogTitle>
                 <DialogContent sx={{ minHeight: "80vh", maxHeight: "80vh" }} id="images-finder-scrollable">
-                    {typeof renderBody === "function" ? renderBody() : null}
+                    {typeof renderBody === "function" ? renderBody({ handleClose }) : null}
                 </DialogContent>
 
             </Dialog>

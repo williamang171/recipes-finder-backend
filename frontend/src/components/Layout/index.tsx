@@ -3,6 +3,7 @@ import { GlobalStyles, useTheme } from "@mui/material";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
+import { grey } from '@mui/material/colors';
 
 import SideNav from './SideNav';
 import Header from './Header';
@@ -19,18 +20,7 @@ const SidebarGlobalStyles = () => {
                 ".sidebar-nav-item": {
                     color: "unset",
                     textDecoration: "none",
-                },
-                ".sidebar-nav-item-active": {
-                    textDecoration: "none",
-                    color: theme.palette.primary.main,
-                    "& .MuiSvgIcon-root": {
-                        color: theme.palette.primary.main,
-                    },
-                    "& .MuiTypography-root": {
-                        fontWeight: 500,
-                        color: theme.palette.primary.main,
-                    },
-                },
+                }
             }}
         />
     );

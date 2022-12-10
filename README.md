@@ -7,8 +7,14 @@ https://user-images.githubusercontent.com/70843788/180822275-84774ddb-3680-405d-
 ## Live Demo
 [Demo](https://fastapi-production-bb29.up.railway.app/)
 
-## Installation
+[API Doc](https://fastapi-production-bb29.up.railway.app/docs)
 
+## Front End Repository
+https://github.com/williamang171/recipes-finder-frontend
+
+<br >
+
+## Installation
 
 ### Running the App
 

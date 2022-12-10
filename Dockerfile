@@ -16,17 +16,17 @@ ENV TESTING 0
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-WORKDIR /backend/
+WORKDIR /app/
 
 # copy project
-COPY ./backend/alembic/ /backend/alembic
-COPY ./backend/app/ /backend/app
-COPY ./backend/alembic.ini /backend/alembic.ini
-COPY ./backend/run.sh /backend/run.sh
+COPY ./app/alembic/ /app/alembic
+COPY ./app/app/ /app/app
+COPY ./app/alembic.ini /app/alembic.ini
+COPY ./app/run.sh /app/run.sh
 
-RUN chmod +x /backend/run.sh
+RUN chmod +x /app/run.sh
 RUN chown -R app:app $HOME
 ENV PYTHONPATH=/
 
 USER app
-CMD ["/backend/run.sh"]
+CMD ["/app/run.sh"]

@@ -27,7 +27,7 @@ app.add_middleware(
 # Project Directories
 ROOT = Path(__file__).resolve().parent.parent
 BASE_PATH = Path(__file__).resolve().parent
-TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
+# TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
 
 root_router = APIRouter()
 
@@ -42,7 +42,7 @@ def root(
     return {"message": "Hello World"}
 
 
-app.mount("/static", StaticFiles(directory=BASE_PATH/"static"), name="static")
+# app.mount("/static", StaticFiles(directory=BASE_PATH/"static"), name="static")
 
 app.include_router(api_router, prefix="/api/v1")
 app.include_router(root_router)

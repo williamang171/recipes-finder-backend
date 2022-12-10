@@ -22,20 +22,6 @@ services:
     ports:
       - "5050:80"
 
-  frontend:
-    container_name: frontend
-    image: recipes-finders-frontend
-    build:
-      context: "./frontend"
-    volumes:
-      - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - 3000:3000
-    stdin_open: true
-    environment:
-      - REACT_APP_PROXY=http://backend:8000
-
   backend:
     build:
       context: "."

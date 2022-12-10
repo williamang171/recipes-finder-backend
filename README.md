@@ -5,7 +5,7 @@ Find recipes by providing image url, uploading image, or providing text based qu
 https://user-images.githubusercontent.com/70843788/180822275-84774ddb-3680-405d-800d-42e5360379c8.mp4
 
 ## Live Demo
-[Demo](https://fastapi-production-bb29.up.railway.app/)
+[Demo](https://recipes-finder-fe.netlify.app/)
 
 ## Installation
 

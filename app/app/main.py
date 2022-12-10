@@ -6,11 +6,23 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, File, UploadFile
 from .database import engine
 from app.api.api_v1.api import api_router
+from fastapi.middleware.cors import CORSMiddleware
 
+origins = [
+    "https://recipes-finder-fe.netlify.app",
+]
 
 # auth.Base.metadata.create_all(bind=engine)
 # recipe.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Recipe API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Project Directories
 ROOT = Path(__file__).resolve().parent.parent
@@ -27,10 +39,7 @@ def root(
     """
     Root GET
     """
-    return TEMPLATES.TemplateResponse(
-        "index.html",
-        {"request": request},
-    )
+    return {"message": "Hello World"}
 
 
 app.mount("/static", StaticFiles(directory=BASE_PATH/"static"), name="static")
@@ -44,10 +53,10 @@ async def create_upload_file(file: UploadFile):
     return {"filename": file.filename}
 
 
-@app.get("/{full_path:path}")
-async def catch_all(request: Request, full_path: str):
-    print("full_path: "+full_path)
-    return TEMPLATES.TemplateResponse("index.html", {"request": request})
+# @app.get("/{full_path:path}")
+# async def catch_all(request: Request, full_path: str):
+#     print("full_path: "+full_path)
+#     return TEMPLATES.TemplateResponse("index.html", {"request": request})
 
 if __name__ == "__main__":
     # Use this for debugging purposes only

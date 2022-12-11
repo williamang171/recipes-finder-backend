@@ -47,11 +47,9 @@ def root(
 app.include_router(api_router, prefix="/api/v1")
 app.include_router(root_router)
 
-
-@app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile):
-    return {"filename": file.filename}
-
+# @app.post("/uploadfile/")
+# async def create_upload_file(file: UploadFile):
+#     return {"filename": file.filename}
 
 # @app.get("/{full_path:path}")
 # async def catch_all(request: Request, full_path: str):

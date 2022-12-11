@@ -57,6 +57,8 @@ async def get_current_user(db: Session = Depends(get_db),  token: str = Depends(
 
 
 async def verify_recaptcha(*, recaptcha_res: Union[str, None] = Header(default=None), settings: config.Settings = Depends(get_settings)):
+    if (settings.bypass_recaptcha == 'True'):
+        return True
     async with httpx.AsyncClient() as client:
         response = await client.post(  # 4
             f"https://www.google.com/recaptcha/api/siteverify",

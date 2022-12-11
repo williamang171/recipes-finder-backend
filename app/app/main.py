@@ -7,6 +7,7 @@ from fastapi import FastAPI, File, UploadFile
 from .database import engine
 from app.api.api_v1.api import api_router
 from fastapi.middleware.cors import CORSMiddleware
+from .tags_metadata import tags_metadata
 
 origins = [
     "https://recipes-finder-fe.netlify.app",
@@ -14,7 +15,7 @@ origins = [
 
 # auth.Base.metadata.create_all(bind=engine)
 # recipe.Base.metadata.create_all(bind=engine)
-app = FastAPI(title="Recipe API")
+app = FastAPI(title="Recipe API", openapi_tags=tags_metadata)
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,22 +28,22 @@ app.add_middleware(
 # Project Directories
 ROOT = Path(__file__).resolve().parent.parent
 BASE_PATH = Path(__file__).resolve().parent
-# TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
+TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
 
 root_router = APIRouter()
 
 
-@root_router.get("/", status_code=200)
-def root(
-    request: Request,
-) -> dict:
-    """
-    Root GET
-    """
-    return {"message": "Hello World"}
+# @root_router.get("/", status_code=200)
+# def root(
+#     request: Request,
+# ) -> dict:
+#     """
+#     Root GET
+#     """
+#     return {"message": "Hello World"}
 
 
-# app.mount("/static", StaticFiles(directory=BASE_PATH/"static"), name="static")
+app.mount("/static", StaticFiles(directory=BASE_PATH/"static"), name="static")
 
 app.include_router(api_router, prefix="/api/v1")
 app.include_router(root_router)
@@ -51,10 +52,11 @@ app.include_router(root_router)
 # async def create_upload_file(file: UploadFile):
 #     return {"filename": file.filename}
 
-# @app.get("/{full_path:path}")
-# async def catch_all(request: Request, full_path: str):
-#     print("full_path: "+full_path)
-#     return TEMPLATES.TemplateResponse("index.html", {"request": request})
+
+@app.get("/{full_path:path}")
+async def catch_all(request: Request, full_path: str):
+    print("full_path: "+full_path)
+    return TEMPLATES.TemplateResponse("index.html", {"request": request})
 
 if __name__ == "__main__":
     # Use this for debugging purposes only

@@ -9,6 +9,7 @@ from app.schemas.predict import PredictViaUrl
 from app.api.deps import get_settings
 from app import config
 from app.api.deps import verify_recaptcha
+from app.tags_metadata import tags_metadata
 
 api_router = APIRouter()
 

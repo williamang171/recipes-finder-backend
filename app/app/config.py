@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     jwt_secret_key: str
     recaptcha_secret: str
     sqlalchemy_database_uri: str = "sqlite:///example.db"
+    bypass_recaptcha: str = 'False'
 
     class Config:
         env_file = ".env"

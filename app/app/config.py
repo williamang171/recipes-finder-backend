@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     recaptcha_secret: str
     sqlalchemy_database_uri: str = "sqlite:///example.db"
     bypass_recaptcha: str = 'False'
+    use_clarifai: str = 'False'
 
     class Config:
         env_file = ".env"

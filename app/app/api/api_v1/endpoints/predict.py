@@ -21,12 +21,7 @@ def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings
         return predict_with_clarifai(settings=settings, image_url=predict_via_url.url)
     image = Image.open(requests.get(predict_via_url.url, stream=True).raw)
     result = predict_with_transformer(image)
-    toReturn = [
-        {
-            "name": result, "value": 1
-        }
-    ]
-    return toReturn
+    return result
 
 
 @api_router.post("/upload")
@@ -38,9 +33,4 @@ async def predict_via_upload(*, file: UploadFile, settings: config.Settings = De
     file_bytes = await file.read()
     image = Image.open(io.BytesIO(file_bytes))
     result = predict_with_transformer(image)
-    toReturn = [
-        {
-            "name": result, "value": 1
-        }
-    ]
-    return toReturn
+    return result

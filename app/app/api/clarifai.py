@@ -53,7 +53,7 @@ def predict_with_clarifai(*, settings: config.Settings, image_url: str = None, f
 
     # print("Predicted concepts:")
     for concept in output.data.concepts:
-        d = {"name": concept.name, "value": concept.value}
+        d = {"label": concept.name, "score": concept.value}
         toReturn.append(d)
         # print("%s %.2f" % (concept.name, concept.value))
 

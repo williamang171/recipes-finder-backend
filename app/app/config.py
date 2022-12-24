@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     sqlalchemy_database_uri: str = "sqlite:///example.db"
     bypass_recaptcha: str = 'False'
     use_clarifai: str = 'False'
+    huggingface_token: str
 
     class Config:
         env_file = ".env"

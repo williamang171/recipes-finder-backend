@@ -1,17 +1,14 @@
 from fastapi import Depends, APIRouter, UploadFile
-from PIL import Image
 import os
-import io
-import requests
 
 from app.schemas.predict import PredictViaUrl
 from app.api.deps import get_settings
 from app import config
 from app.api.deps import verify_recaptcha
 from app.api.clarifai import predict_with_clarifai
-from app.api.hugging_face_utils import predict_with_transformer
+from app.api.hugging_face_utils import query
 
-image_path = os.path.join(os.getcwd(), 'app', 'static', 'ramen.jpeg')
+sample_image_path = os.path.join(os.getcwd(), 'app', 'static', 'ramen.jpeg')
 api_router = APIRouter()
 
 
@@ -19,8 +16,7 @@ api_router = APIRouter()
 def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings = Depends(get_settings), valid_recaptcha: bool = Depends(verify_recaptcha)):
     if (settings.use_clarifai == 'True'):
         return predict_with_clarifai(settings=settings, image_url=predict_via_url.url)
-    image = Image.open(requests.get(predict_via_url.url, stream=True).raw)
-    result = predict_with_transformer(image)
+    result = query(predict_via_url.url, settings.huggingface_token)
     return result
 
 
@@ -29,8 +25,6 @@ async def predict_via_upload(*, file: UploadFile, settings: config.Settings = De
     if (settings.use_clarifai == 'true'):
         file_bytes = await file.read()
         return predict_with_clarifai(settings=settings, file_bytes=file_bytes)
-
     file_bytes = await file.read()
-    image = Image.open(io.BytesIO(file_bytes))
-    result = predict_with_transformer(image)
+    result = query(file_bytes, settings.huggingface_token)
     return result

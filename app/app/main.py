@@ -8,6 +8,8 @@ from .database import engine
 from app.api.api_v1.api import api_router
 from fastapi.middleware.cors import CORSMiddleware
 from .tags_metadata import tags_metadata
+from fastapi.openapi.utils import get_openapi
+
 
 origins = [
     "https://recipes-finder-fe.netlify.app",
@@ -15,7 +17,9 @@ origins = [
 
 # auth.Base.metadata.create_all(bind=engine)
 # recipe.Base.metadata.create_all(bind=engine)
-app = FastAPI(title="Recipe API", openapi_tags=tags_metadata)
+app = FastAPI(title="Recipes Finder API", openapi_tags=tags_metadata,
+              description='This documentation lists the available APIs for the app, you can sign in as a demo user with "demo@example.com:Password123!" by clicking on the "Authorize" button')
+
 
 app.add_middleware(
     CORSMiddleware,

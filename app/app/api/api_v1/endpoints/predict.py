@@ -14,17 +14,17 @@ api_router = APIRouter()
 
 @api_router.post("/")
 def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings = Depends(get_settings), valid_recaptcha: bool = Depends(verify_recaptcha)):
-    if (settings.use_clarifai == 'True'):
+    if (settings.USE_CLARIFAI == 'True'):
         return predict_with_clarifai(settings=settings, image_url=predict_via_url.url)
-    result = query(predict_via_url.url, settings.huggingface_token)
+    result = query(predict_via_url.url, settings.HUGGINGFACE_TOKEN)
     return result
 
 
 @api_router.post("/upload")
 async def predict_via_upload(*, file: UploadFile, settings: config.Settings = Depends(get_settings), valid_recaptcha: bool = Depends(verify_recaptcha)):
-    if (settings.use_clarifai == 'true'):
+    if (settings.USE_CLARIFAI == 'True'):
         file_bytes = await file.read()
         return predict_with_clarifai(settings=settings, file_bytes=file_bytes)
     file_bytes = await file.read()
-    result = query(file_bytes, settings.huggingface_token)
+    result = query(file_bytes, settings.HUGGINGFACE_TOKEN)
     return result

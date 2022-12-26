@@ -33,7 +33,7 @@ target_metadata = Base.metadata
 
 
 def get_url():
-    connection_uri = settings.sqlalchemy_database_uri
+    connection_uri = settings.SQLALCHEMY_DATABASE_URI
     if connection_uri.startswith("postgres://"):
         connection_uri = connection_uri.replace(
             "postgres://", "postgresql://", 1)

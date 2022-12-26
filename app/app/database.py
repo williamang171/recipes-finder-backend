@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from app.config import settings
 
 # SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
-SQLALCHEMY_DATABASE_URL = settings.sqlalchemy_database_uri
+SQLALCHEMY_DATABASE_URL = settings.SQLALCHEMY_DATABASE_URI
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL

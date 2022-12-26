@@ -7,7 +7,7 @@ https://user-images.githubusercontent.com/70843788/180822275-84774ddb-3680-405d-
 ## Live Demo
 [Demo](https://recipes-finder-fe.netlify.app/auth/sign-in)
 
-[API Doc](https://fastapi-production-bb29.up.railway.app/docs)
+[API Doc](https://rf-backend-h62gfkc3pq-uc.a.run.app/docs)
 
 ## Front End Repository
 https://github.com/williamang171/recipes-finder-frontend
@@ -43,15 +43,11 @@ you can visit [localhost:8000/docs](localhost:8000/docs) for the API documentati
 <br />
 
 ### Environment Variables
-| Environment Variable    	| Description                                                                                                                                                                                             	|
-|-------------------------	|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| CLARIFAI_APP_ID         	| You can get Clarifai relevant values by signing up an account at [ Clarifai ]( https://www.clarifai.com/ ) and creating an app                                                                          	|
-| CLARIFAI_USER_ID        	| You can get Clarifai relevant values by signing up an account at  [ Clarifai ]( https://www.clarifai.com/ )  and creating an app                                                                        	|
-| CLARIFAI_KEY            	| You can get Clarifai relevant values by signing up an account at  [ Clarifai ]( https://www.clarifai.com/ )  and creating an app                                                                        	|
-| RECAPTCHA_SECRET        	| You can get a secret key by creating a new site at [ Google reCAPTCHA ]( https://www.google.com/recaptcha/admin/site/480947030 )                                                                        	|
-| JWT_SECRET_KEY          	| You can generate a value for this with  ```sh openssl rand -hex 32 ```                                                                                                                                  	|
-| UNSPLASH_CLIENT_ID      	| You can get an API key by registering an account at [ Unsplash ]( https://unsplash.com/oauth/applications ), if you are not planning to test out the unsplash part of the app you can simply omit this. 	|
-| SQLALCHEMY_DATABASE_URI 	| When running the database with docker locally, use `postgresql://postgres:postgres@localhost:5432/db`                                                                                                   	|
+| Environment Variable    	| Description                                                                                                                                                                                                                 	|
+|-------------------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| JWT_SECRET_KEY          	| You can generate a value for this with  `openssl`  then run  `rand -hex 32`                                                                                                                                                 	|
+| SQLALCHEMY_DATABASE_URI 	| When running the database with docker locally, use `postgresql://postgres:postgres@localhost:5432/db`, you will need to change this variable when deploying to a production database URI.                                   	|
+| UNSPLASH_CLIENT_ID      	| Optional variable,  you can get an API key by registering an account at [ Unsplash ]( https://unsplash.com/oauth/applications ), if you are not planning to test out the unsplash part of the app you can simply omit this. 	|                           	|
 
 <br />
 
@@ -148,13 +144,14 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 
 <br />
 
-## Reference / Learning Materials
+## Appendix
 - [FastAPI Official Documentation](https://fastapi.tiangolo.com/)
 - [The FastAPI Ultimate Tutorial](https://christophergs.com/python/2021/12/04/fastapi-ultimate-tutorial/)
 - [React with TypeScript](https://www.youtube.com/watch?v=ydkQlJhodio)
 - [React TypeScript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup)
 - [FastAPI with Alembic](https://testdriven.io/blog/fastapi-sqlmodel/#alembic) 
-- [Clarifai API Documentation](https://docs.clarifai.com/api-guide/predict/images)
 - [Unsplash API Documentation](https://unsplash.com/documentation)
-
+- [Clarifai API Documentation (Used in the older version of the app)](https://docs.clarifai.com/api-guide/predict/images)
+- [Training Image Classification Model with Hugging Face](https://huggingface.co/docs/transformers/tasks/image_classification)
+- [Hosting Machine Learning Model Demos with Gradio](https://huggingface.co/course/chapter9/1)
 

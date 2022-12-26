@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     SQLALCHEMY_DATABASE_URI: str = "sqlite:///example.db"
     BYPASS_RECAPTCHA: str = 'True'
     USE_CLARIFAI: str = 'False'
-    HUGGINGFACE_TOKEN: str
+    HUGGINGFACE_TOKEN: str = ''
 
     class Config:
         env_file = ".env"

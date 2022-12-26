@@ -19,7 +19,7 @@ class PredictResult(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "name": "ramen",
+                "label": "ramen",
                 "score": 0.5968700647354126
             }
         }

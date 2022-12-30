@@ -2,16 +2,17 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    api_v1_str: str = "/api/v1"
-    clarifai_app_id: str
-    clarifai_user_id: str
-    clarifai_key: str
-    unsplash_client_id: str
-    jwt_secret_key: str
-    recaptcha_secret: str
-    sqlalchemy_database_uri: str = "sqlite:///example.db"
-    bypass_recaptcha: str = 'False'
-    use_clarifai: str = 'False'
+    API_V1_STR: str = "/api/v1"
+    CLARIFAI_APP_ID: str = ''
+    CLARIFAI_USER_ID: str = ''
+    CLARIFAI_KEY: str = ''
+    UNSPLASH_CLIENT_ID: str = ''
+    JWT_SECRET_KEY: str = ''
+    RECAPTCHA_SECRET: str = ''
+    SQLALCHEMY_DATABASE_URI: str = "sqlite:///example.db"
+    BYPASS_RECAPTCHA: str = 'True'
+    USE_CLARIFAI: str = 'False'
+    HUGGINGFACE_TOKEN: str = ''
 
     class Config:
         env_file = ".env"

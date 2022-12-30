@@ -1,22 +1,15 @@
-from transformers import pipeline
+import requests
+import json
 
-# extractor = AutoFeatureExtractor.from_pretrained(
-#     "william7642/my_awesome_food_model")
-# model = AutoModelForImageClassification.from_pretrained(
-#     "william7642/my_awesome_food_model")
+# classifier = pipeline("image-classification",
+#                       model="william7642/my_awesome_food_model")
 
-classifier = pipeline("image-classification",
-                      model="william7642/my_awesome_food_model")
+API_URL = "https://api-inference.huggingface.co/models/william7642/my_awesome_food_model"
 
 
-def predict_with_transformer(image):
-    outputs = classifier(image)
-
-    return outputs
-
-    # Manual prediction
-    # inputs = extractor(image, return_tensors="pt")
-    # with torch.no_grad():
-    #     logits = model(**inputs).logits
-    # predicted_label = logits.argmax(-1).item()
-    # return model.config.id2label[predicted_label]
+def query(data, token=''):
+    # Model is public, thus we can omit the token
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.request(
+        "POST", API_URL, headers=headers if token is not None else None, data=data)
+    return json.loads(response.content.decode("utf-8"))

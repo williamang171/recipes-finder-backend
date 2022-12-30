@@ -10,6 +10,7 @@ from app.schemas.auth import TokenData
 from functools import lru_cache
 from app import config
 import httpx
+from app.clients.reddit import RedditClient
 
 
 @lru_cache()
@@ -41,7 +42,7 @@ async def get_current_user(db: Session = Depends(get_db),  token: str = Depends(
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, settings.jwt_secret_key,
+        payload = jwt.decode(token, settings.JWT_SECRET_KEY,
                              algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
@@ -57,13 +58,13 @@ async def get_current_user(db: Session = Depends(get_db),  token: str = Depends(
 
 
 async def verify_recaptcha(*, recaptcha_res: Union[str, None] = Header(default=None), settings: config.Settings = Depends(get_settings)):
-    if (settings.bypass_recaptcha == 'True'):
+    if (settings.BYPASS_RECAPTCHA == 'True'):
         return True
     async with httpx.AsyncClient() as client:
         response = await client.post(  # 4
             f"https://www.google.com/recaptcha/api/siteverify",
             data={
-                'secret': settings.recaptcha_secret,
+                'secret': settings.RECAPTCHA_SECRET,
                 'response': recaptcha_res
             }
         )
@@ -71,3 +72,7 @@ async def verify_recaptcha(*, recaptcha_res: Union[str, None] = Header(default=N
     if (result['success']):
         return True
     raise HTTPException(400, detail="Bad Request")
+
+
+def get_reddit_client() -> RedditClient:
+    return RedditClient()

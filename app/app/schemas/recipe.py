@@ -1,29 +1,20 @@
 from pydantic import BaseModel, HttpUrl
-
-from typing import Sequence
-
-
-class Recipe(BaseModel):
-    id: int
-    name: str
-    userId: int
-    imageUrl: HttpUrl
-    url: HttpUrl
-    mealDbId: str
+from enum import Enum
+from typing import Sequence, Optional
 
 
-class RecipeCreate(BaseModel):
-    name: str
-    imageUrl: HttpUrl
-    url: HttpUrl
-    mealDbId: str
+class RecipeSourceType(str, Enum):
+    reddit = 'reddit'
+    mealdb = 'mealdb'
 
 
 class RecipeBase(BaseModel):
-    name: str
-    image_url: HttpUrl
+    image_url: Optional[HttpUrl]
     url: HttpUrl
-    mealdb_id: str
+    mealdb_id: Optional[str]
+    reddit_post_id: Optional[str]
+    source_type: Optional[RecipeSourceType]
+    title: str
 
 
 class RecipeCreate(RecipeBase):

@@ -74,7 +74,7 @@ async def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.email},
-        secret_key=settings.jwt_secret_key,
+        secret_key=settings.JWT_SECRET_KEY,
         expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}

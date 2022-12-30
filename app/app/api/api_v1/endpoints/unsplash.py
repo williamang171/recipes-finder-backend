@@ -13,7 +13,7 @@ async def search_unsplash_photos(*, query: str, page: int, per_page: int, settin
         response = await client.get(  # 4
             f"https://api.unsplash.com/search/photos?query={query}&page={page}&per_page={per_page}",
             headers={
-                "Authorization": f"Client-ID {settings.unsplash_client_id}"},
+                "Authorization": f"Client-ID {settings.UNSPLASH_CLIENT_ID}"},
         )
     return response.json()
 

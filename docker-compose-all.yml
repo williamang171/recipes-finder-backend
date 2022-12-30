@@ -27,7 +27,7 @@ services:
       context: "."
     # command: uvicorn app.main:app --host 0.0.0.0
     volumes:
-      - ./backend/.env:/backend/.env
+      - ./app/.env:/app/.env
     ports:
       - 8000:8000
 

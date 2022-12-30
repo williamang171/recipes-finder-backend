@@ -22,9 +22,9 @@ def predict_with_clarifai(*, settings: config.Settings, image_url: str = None, f
             base64=file_bytes
         )
 
-    metadata = (('authorization', f'Key {settings.clarifai_key}'),)
+    metadata = (('authorization', f'Key {settings.CLARIFAI_KEY}'),)
     userDataObject = resources_pb2.UserAppIDSet(
-        user_id=settings.clarifai_user_id, app_id=settings.clarifai_app_id)
+        user_id=settings.CLARIFAI_USER_ID, app_id=settings.CLARIFAI_APP_ID)
 
     post_model_outputs_response = stub.PostModelOutputs(
         service_pb2.PostModelOutputsRequest(

@@ -9,7 +9,7 @@ class RecipeSourceType(str, Enum):
 
 
 class RecipeBase(BaseModel):
-    image_url: HttpUrl | None
+    image_url: Optional[HttpUrl]
     url: HttpUrl
     mealdb_id: Optional[str]
     reddit_post_id: Optional[str]

@@ -5,7 +5,7 @@ tags_metadata = [
     },
     {
         "name": "predict",
-        "description": "Predict the labels of the given image, in production it is not possible to test this as recpatcha-res is needed",
+        "description": "Predict the labels of the given image",
     },
     {
         "name": "auth",

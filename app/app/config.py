@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     CLARIFAI_USER_ID: str = ''
     CLARIFAI_KEY: str = ''
     UNSPLASH_CLIENT_ID: str = ''
-    JWT_SECRET_KEY: str
+    JWT_SECRET_KEY: str = ''
     RECAPTCHA_SECRET: str = ''
     SQLALCHEMY_DATABASE_URI: str = "sqlite:///example.db"
     BYPASS_RECAPTCHA: str = 'True'

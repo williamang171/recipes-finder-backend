@@ -9,6 +9,7 @@ API_URL = "https://api-inference.huggingface.co/models/william7642/my_awesome_fo
 
 def query(data, token=''):
     # Model is public, thus we can omit the token
-    # headers = {"Authorization": f"Bearer {token}"}
-    response = requests.request("POST", API_URL, data=data)
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.request(
+        "POST", API_URL, headers=headers if token is not None else None, data=data)
     return json.loads(response.content.decode("utf-8"))

@@ -10,6 +10,7 @@ from app.schemas.auth import TokenData
 from functools import lru_cache
 from app import config
 import httpx
+from app.clients.reddit import RedditClient
 
 
 @lru_cache()
@@ -71,3 +72,7 @@ async def verify_recaptcha(*, recaptcha_res: Union[str, None] = Header(default=N
     if (result['success']):
         return True
     raise HTTPException(400, detail="Bad Request")
+
+
+def get_reddit_client() -> RedditClient:
+    return RedditClient()

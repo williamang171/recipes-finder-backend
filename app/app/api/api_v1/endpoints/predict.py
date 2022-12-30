@@ -11,13 +11,19 @@ from app.api.hugging_face_utils import query
 sample_image_path = os.path.join(os.getcwd(), 'app', 'static', 'ramen.jpeg')
 api_router = APIRouter()
 
+# mock error response when model is not ready
+# detail {
+#    error: "Model william7642/my_awesome_food_model is currently loading"
+#    estimated_time: 20
+# }
+
 
 def validate_query_result(result):
+    # Raise mock for testing
+    # raise HTTPException(status_code=503, detail={
+    #                     'error': "Model is currently loading", "estimated_time": 20})
     if ('error' in result):
-        if ('estimated_time' in result):
-            raise HTTPException(
-                status_code=503, detail='Loading model, please try again later.')
-        raise HTTPException(status_code=503, detail=result.get('error'))
+        raise HTTPException(status_code=503, detail=result)
     return
 
 

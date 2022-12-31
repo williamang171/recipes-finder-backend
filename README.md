@@ -2,7 +2,7 @@
 
 Find recipes by providing image url, uploading image, or providing text based queries
 
-https://user-images.githubusercontent.com/70843788/180822275-84774ddb-3680-405d-800d-42e5360379c8.mp4
+https://user-images.githubusercontent.com/70843788/210121468-189ebaf9-a4d0-465d-989e-ca7e2d00feba.mp4
 
 ## Live Demo
 [Demo](https://recipes-finder-fe.netlify.app/auth/sign-in)

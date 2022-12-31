@@ -63,17 +63,12 @@ async def get_reddit_top_async(subreddit: str, q: str) -> list:
         subreddit_recipes = response.json()
         subreddit_data = []
         for entry in subreddit_recipes["data"]["children"]:
-            # print(entry)
             score = entry["data"]["score"]
             title = entry["data"]["title"]
-            image_url = entry["data"]["url"]
-            if (entry["data"]["thumbnail"]):
-                image_url = entry["data"]["thumbnail"]
             permalink = entry["data"]["permalink"]
             id = entry["data"]["id"]
             subreddit_name_prefixed = entry["data"]["subreddit_name_prefixed"]
             postLink = f"https://www.reddit.com/{permalink}"
-            # get_suitable_image_url(entry)
             subreddit_data.append({
                 "image_url": get_suitable_image_url(entry),
                 "title": title,
@@ -108,11 +103,11 @@ async def fetch_ideas_async(
     return to_return
 
 
-@api_router.get("/")
-def fetch_ideas(reddit_client: RedditClient = Depends(get_reddit_client)) -> dict:
-    return {
-        key: reddit_client.get_reddit_top(subreddit=key) for key in RECIPE_SUBREDDITS
-    }
+# @api_router.get("/")
+# def fetch_ideas(reddit_client: RedditClient = Depends(get_reddit_client)) -> dict:
+#     return {
+#         key: reddit_client.get_reddit_top(subreddit=key) for key in RECIPE_SUBREDDITS
+#     }
 
 
 @api_router.get('/mealdb')

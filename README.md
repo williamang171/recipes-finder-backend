@@ -1,6 +1,6 @@
 # Recipes Finder
 
-Find recipes by providing text based queriesm image url, or uploading image 
+Find recipes by providing text based queries, image url, or uploading image 
 
 https://github.com/williamang171/recipes-finder-backend/assets/70843788/d9c43c40-63e0-476a-9712-70513b56c704
 

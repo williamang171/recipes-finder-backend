@@ -16,3 +16,4 @@ class Recipe(Base):
     source_type = Column(String(256), nullable=True)
     reddit_post_id = Column(String(256), nullable=True)
     title = Column(String(256), nullable=False)
+    subreddit_name_prefixed = Column(String(256), nullable=True)

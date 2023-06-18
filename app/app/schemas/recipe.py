@@ -15,6 +15,7 @@ class RecipeBase(BaseModel):
     reddit_post_id: Optional[str]
     source_type: Optional[RecipeSourceType]
     title: str
+    subreddit_name_prefixed: Optional[str]
 
 
 class RecipeCreate(RecipeBase):

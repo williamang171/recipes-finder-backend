@@ -2,16 +2,18 @@
 
 Find recipes by providing text based queries, image url, or uploading image 
 
-https://github.com/williamang171/recipes-finder-backend/assets/70843788/d9c43c40-63e0-476a-9712-70513b56c704
+
+
+https://github.com/williamang171/recipes-finder-backend/assets/70843788/66809163-c6ae-4a33-8c77-bda773d3d67e
+
+
 
 ## Front End Repository
 https://github.com/williamang171/recipes-finder-frontend
 
 <br >
 
-## Installation
-
-### Running the App
+## Running the App
 
 OS X & Linux:
 
@@ -32,21 +34,21 @@ cd app
 uvicorn app.main:app --reload
 ```
 
-The app should be running on [localhost:8000](localhost:8000), and the API documentation will be available on [localhost:8000/docs](localhost:8000/docs), but we need to provide the necessary environment variables and setup postgres locally with docker for the app to work correctly, the next section describes how we can achieve this.
+The app should be running on [localhost:8000](localhost:8000), while the 
+API documentation will be available on [localhost:8000/docs](localhost:8000/docs)
 
-<br />
+Currently the app is likely to return errors, as we have not added the necessary environment variables and setup Postgres locally
 
 ### Environment Variables
-| Environment Variable    	| Description                                                                                                                                                                                                                 	|
-|-------------------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| JWT_SECRET_KEY          	| You can generate a value for this with  `openssl`  then run  `rand -hex 32`                                                                                                                                                 	|
-| SQLALCHEMY_DATABASE_URI 	| When running the backend app locally without docker, but connecting to a postgres instance created via docker, set this value to `postgresql://postgres:postgres@localhost:5432/db`, you will need to change this variable when deploying to a production database URI.                                   	|
-| UNSPLASH_CLIENT_ID      	| Optional variable,  you can get an API key by registering an account at [ Unsplash ]( https://unsplash.com/oauth/applications ), if you are not planning to test out the unsplash part of the app you can simply omit this. 	|                           	|
+| Environment Variable    	| Description                                                                                                                                                                                                          	|
+|-------------------------	|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| JWT_SECRET_KEY          	| You can generate a value for this with `openssl rand -base64 64`, if you using Windows, you can use Git Bash to run the command                                                                                 	|
+| SQLALCHEMY_DATABASE_URI 	| When running the database with docker locally (we will cover this later), use `postgresql://postgres:postgres@localhost:5432/db`, you will need to change this variable when deploying to a production database URI. 	|
 
 <br />
 
 ### Running Postgres and PgAdmin
-> Docker is required to run Postgres and PgAdmin
+> We will be using [Docker](https://docs.docker.com/get-docker/) to run Postgres and PgAdmin
 
 ```sh
 docker-compose up
@@ -60,13 +62,21 @@ You can then connect to the postgres database with the credentials provided in t
 <br />
 
 ### Applying database migrations
-Make sure you have activated the virtual environment as mentioned in the earlier steps, then cd into `/app` folder, then run
+Open another command tab / window, and activate the virtual environment, cd into the `/app` folder, then run the following commands
+
+1. Verify migrations to be applied
+
+```sh
+alembic history
+```
+
+2. Apply migrations
 
 ```sh
 alembic upgrade head
 ``` 
 
-Verify if migrations have been applied
+3. Verify if migrations have been applied
 
 ```sh
 alembic history
@@ -74,7 +84,7 @@ alembic history
 
 <br />
 
-## Using docker-compose to run the app
+## Optional: Using docker-compose to run the app
 The installation section earlier describes how to run the backend app locally without docker, and connecting to a postgres instance created via Docker. However if you would like to run the backend app with docker as well, you can follow the steps below.
 
 First of all update the environment variable `SQLALCHEMY_DATABASE_URI` to `postgresql://postgres:postgres@postgres:5432/db`

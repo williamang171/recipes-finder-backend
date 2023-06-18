@@ -5,7 +5,7 @@ from typing import Sequence, Optional
 
 class RecipeSourceType(str, Enum):
     reddit = 'reddit'
-    mealdb = 'mealdb'
+    themealdb = 'themealdb'
 
 
 class RecipeBase(BaseModel):

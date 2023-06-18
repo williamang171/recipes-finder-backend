@@ -31,7 +31,7 @@ async def get_mealdb(q: str) -> list:
             mealdb_meals_data.append({
                 "image_url": image_url,
                 "title": name,
-                "source_type": "mealdb",
+                "source_type": "themealdb",
                 "url": url,
                 "mealdb_id": mealdb_id
             })

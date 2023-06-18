@@ -44,6 +44,7 @@ Currently the app is likely to return errors, as we have not added the necessary
 |-------------------------	|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | JWT_SECRET_KEY          	| You can generate a value for this with `openssl rand -base64 64`, if you using Windows, you can use Git Bash to run the command                                                                                 	|
 | SQLALCHEMY_DATABASE_URI 	| When running the database with docker locally (we will cover this later), use `postgresql://postgres:postgres@localhost:5432/db`, you will need to change this variable when deploying to a production database URI. 	|
+| UNSPLASH_CLIENT_ID        | Optional variable, used internally to test out different unsplash images during development |
 
 <br />
 

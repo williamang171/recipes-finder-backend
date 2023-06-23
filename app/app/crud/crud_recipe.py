@@ -5,6 +5,10 @@ from app.models.recipe import Recipe
 from app.schemas.recipe import RecipeCreate
 
 
+def wake_up(db: Session):
+    return db.query(Recipe).filter_by(user_id=1).limit(1)
+
+
 def get_recipes(db: Session, user_id: int):
     return db.query(Recipe).filter_by(user_id=user_id).all()
 

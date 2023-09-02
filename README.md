@@ -4,7 +4,11 @@ Find recipes by providing text based queries, image url, or uploading image
 
 
 
-https://github.com/williamang171/recipes-finder-backend/assets/70843788/66809163-c6ae-4a33-8c77-bda773d3d67e
+
+
+https://github.com/williamang171/recipes-finder-backend/assets/70843788/c729afbb-2cd4-4d0c-a652-b859ae554595
+
+
 
 
 

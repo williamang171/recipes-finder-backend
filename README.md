@@ -2,15 +2,7 @@
 
 Find recipes by providing text based queries, image url, or uploading image 
 
-
-
-
-
-https://github.com/williamang171/recipes-finder-backend/assets/70843788/c729afbb-2cd4-4d0c-a652-b859ae554595
-
-
-
-
+https://github.com/williamang171/recipes-finder-backend/assets/70843788/e16a0719-2b1e-4c3d-a24a-4c7030d28558
 
 ## Front End Repository
 https://github.com/williamang171/recipes-finder-frontend

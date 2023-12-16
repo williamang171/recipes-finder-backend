@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     BYPASS_RECAPTCHA: str = 'True'
     USE_CLARIFAI: str = 'False'
     HUGGINGFACE_TOKEN: str = ''
+    REDIS_HOST: str = ''
+    REDIS_PW: str = ''
+    REDIS_PORT: str = ''
 
     class Config:
         env_file = ".env"

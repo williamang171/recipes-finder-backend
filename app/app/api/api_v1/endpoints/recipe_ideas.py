@@ -92,8 +92,8 @@ async def fetch_ideas_async(
 ) -> list:
     results = await asyncio.gather(
         fetch_ideas_mealdb_async(q=q),
-        *[get_reddit_top_async(subreddit=subreddit, q=q)
-          for subreddit in RECIPE_SUBREDDITS],
+        # *[get_reddit_top_async(subreddit=subreddit, q=q)
+        #   for subreddit in RECIPE_SUBREDDITS],
     )
     to_return = []
     for result in results:

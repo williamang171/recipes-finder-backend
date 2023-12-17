@@ -11,7 +11,7 @@ from functools import lru_cache
 from app import config
 import httpx
 from app.clients.reddit import RedditClient
-
+import redis
 
 @lru_cache()
 def get_settings():
@@ -76,3 +76,11 @@ async def verify_recaptcha(*, recaptcha_res: Union[str, None] = Header(default=N
 
 def get_reddit_client() -> RedditClient:
     return RedditClient()
+
+
+def get_redis(*, settings: config.Settings = Depends(get_settings)):
+    r = redis.Redis(
+    host=settings.REDIS_HOST,
+    port=int(settings.REDIS_PORT),
+    password=settings.REDIS_PW)
+    return r

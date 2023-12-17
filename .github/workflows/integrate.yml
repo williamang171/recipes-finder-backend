@@ -2,22 +2,22 @@ name: Recipes Finder Continuous Integration
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
-  RECAPTCHA_SECRET: secret
-  CLARIFAI_APP_ID: secret
-  CLARIFAI_USER_ID: secret
-  CLARIFAI_KEY: secret
+  # RECAPTCHA_SECRET: secret
   UNSPLASH_CLIENT_ID: secret
   JWT_SECRET_KEY: secret
+  REDIS_HOST: secret
+  REDIS_PW: secret
+  REDIS_PORT: secret
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10"]
+        python-version: ['3.9', '3.10']
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4

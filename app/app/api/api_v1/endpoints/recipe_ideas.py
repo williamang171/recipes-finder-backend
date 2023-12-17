@@ -102,12 +102,11 @@ async def fetch_ideas_async(
     # return dict(zip(RECIPE_SUBREDDITS, results))
     return to_return
 
-
-# @api_router.get("/")
-# def fetch_ideas(reddit_client: RedditClient = Depends(get_reddit_client)) -> dict:
-#     return {
-#         key: reddit_client.get_reddit_top(subreddit=key) for key in RECIPE_SUBREDDITS
-#     }
+@api_router.get("/reddit_ideas")
+def fetch_ideas(reddit_client: RedditClient = Depends(get_reddit_client)) -> dict:
+    return {
+        key: reddit_client.get_reddit_top(subreddit=key) for key in RECIPE_SUBREDDITS
+    }
 
 
 @api_router.get('/mealdb')

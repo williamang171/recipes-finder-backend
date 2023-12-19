@@ -7,8 +7,7 @@ from app import config
 from app.api.deps import get_current_user
 from app.api.hugging_face_utils import query
 from app.schemas.auth import User
-import json
-
+from app.api.redis_utils import cache_query_result, get_cached_query_result
  
 
 sample_image_path = os.path.join(os.getcwd(), 'app', 'static', 'ramen.jpeg')
@@ -28,30 +27,16 @@ def validate_query_result(result):
         raise HTTPException(status_code=503, detail=result)
     return
 
-def get_cached_query_result(r, url):
-    result = r.get(url)
-    if not result:
-        return None
-    unpacked_result = json.loads(result)
-    return unpacked_result
-
-def cache_query_result(r, url, result):
-    if ('error' in result):
-        return
-    result_json = json.dumps(result)
-    r.set(url, result_json)
-
 @api_router.post("/", response_model=list[PredictResult])
 def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings = Depends(get_settings), current_user: User = Depends(get_current_user), r = Depends(get_redis)):
-    cached_result = get_cached_query_result(r, predict_via_url.url)
+    prefix_key = 'predict_via_url'
+    cached_result = get_cached_query_result(r, predict_via_url.url, prefix_key=prefix_key)
     if (cached_result):
-        print("Cache found for the given url, using cached result")
+        print(f'Cache found for {prefix_key}:{predict_via_url.url}, using cached result')
         return cached_result
-    print("Cache not found for the given url, predicting...")
     result = query(predict_via_url.url, settings.HUGGINGFACE_TOKEN)
     validate_query_result(result)
-    cache_query_result(r, predict_via_url.url, result)
-    print("Saved result to cache")
+    cache_query_result(r, predict_via_url.url, result, prefix_key=prefix_key)
     return result
 
 

@@ -4,15 +4,15 @@ from typing import Sequence, Optional
 
 
 class RecipeSourceType(str, Enum):
-    reddit = 'reddit'
     themealdb = 'themealdb'
+    reddit = 'reddit'
+    spoonacular = 'spoonacular'
 
 
 class RecipeBase(BaseModel):
     image_url: Optional[HttpUrl]
     url: HttpUrl
-    mealdb_id: Optional[str]
-    reddit_post_id: Optional[str]
+    source_id: Optional[str]
     source_type: Optional[RecipeSourceType]
     title: str
     subreddit_name_prefixed: Optional[str]

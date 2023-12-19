@@ -1,18 +1,20 @@
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, Request
 import httpx
 import asyncio
-from app.api.deps import get_current_user, get_db, get_reddit_client
+from app.api.deps import get_reddit_client, get_redis, get_settings, get_current_user
 from app.clients.reddit import RedditClient
-
+from app import config
 from app.schemas.auth import User
+from app.api.redis_utils import cache_query_result, get_cached_query_result
+from app.limiter import limiter
 
 MEALDB_BASE_URL = "https://www.themealdb.com/api/json/v1/1"
+SPOONACULAR_BASE_URL = "https://api.spoonacular.com"
 RECIPE_SUBREDDITS = ["recipes", "easyrecipes",
                      "TopSecretRecipes"]
-# RECIPE_SUBREDDITS = ["recipes"]
 api_router = APIRouter()
 
-
+# ---------- themealdb ----------
 async def get_mealdb(q: str) -> list:
     try:
         async with httpx.AsyncClient() as client:
@@ -40,8 +42,17 @@ async def get_mealdb(q: str) -> list:
         print(e)
         return []
 
+@api_router.get('/mealdb')
+async def fetch_ideas_mealdb(
+    *,
+    q: str,
+    current_user: User = Depends(get_current_user)
+) -> list:
+    results = await get_mealdb(q)
+    return results
 
-def get_suitable_image_url(entry):
+# ---------- reddit ----------
+def get_reddit_suitable_image(entry):
     try:
         image_url = entry["data"]["url"]
         if (entry["data"]["thumbnail"]):
@@ -70,7 +81,7 @@ async def get_reddit_top_async(subreddit: str, q: str) -> list:
             subreddit_name_prefixed = entry["data"]["subreddit_name_prefixed"]
             postLink = f"https://www.reddit.com/{permalink}"
             subreddit_data.append({
-                "image_url": get_suitable_image_url(entry),
+                "image_url": get_reddit_suitable_image(entry),
                 "title": title,
                 "score": score,
                 "permalink": permalink,
@@ -85,33 +96,134 @@ async def get_reddit_top_async(subreddit: str, q: str) -> list:
         print(e)
         return []
 
+# @api_router.get("/reddit")
+# def fetch_ideas_reddit(*, reddit_client: RedditClient = Depends(get_reddit_client), current_user: User = Depends(get_current_user)) -> dict:
+#     return {
+#         key: reddit_client.get_reddit_top(subreddit=key) for key in RECIPE_SUBREDDITS
+#     }
 
+# ---------- spoonacular ----------
+async def get_spoonacular_search(q: str, apiKey: str) -> list:
+    try:
+        number = 4
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"{SPOONACULAR_BASE_URL}/recipes/complexSearch?query={q}&apiKey={apiKey}&number={str(number)}",
+            )
+        recipes_res = response.json()
+        res = []
+        if (recipes_res["results"] is None):
+            return []
+        for entry in recipes_res["results"]:
+            source_id = entry["id"]
+            name = entry["title"]
+            image_url = entry["image"]
+            res.append({
+                "image_url": image_url,
+                "title": name,
+                "source_type": "spoonacular", 
+                "source_id": source_id
+            })
+        return res
+    except Exception as e:
+        print(e)
+        return []
+
+async def get_spoonacular_recipe_info(ids: list, apiKey: str) -> list:
+    if not ids or len(ids) == 0:
+        return []
+    try:
+        ids_str = ','.join(ids)
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"{SPOONACULAR_BASE_URL}/recipes/informationBulk?ids={ids_str}&apiKey={apiKey}",
+            )
+        recipes_res = response.json()
+        res = []
+        if (recipes_res is None):
+            return []
+        for entry in recipes_res:
+            source_id = entry["id"]
+            url = entry["spoonacularSourceUrl"]
+            res.append({
+                "source_type": "spoonacular", 
+                "source_id": source_id,
+                "url": url
+            })
+        return res
+    except Exception as e:
+        print(e)
+        return []
+
+def get_result_ids(results: list) -> list:
+    if not results or len(results) == 0:
+        return []
+    ids = []
+    for entry in results:
+        if "source_id" in entry:
+            ids.append(str(entry["source_id"]))
+    return ids
+
+async def get_spoonacular_result(q: str, settings: config.Settings = Depends(get_settings)):
+    apiKey = settings.SPOONACULAR_API_KEY
+    list1 = await get_spoonacular_search(q, apiKey)
+    list2 = await get_spoonacular_recipe_info(get_result_ids(list1), apiKey)
+    merged_list = {d['source_id']: {**d1, **d} for d in list1 for d1 in list2 if d['source_id'] == d1['source_id']}
+    # Convert the dictionary values back to a list
+    result_list = list(merged_list.values())
+    return result_list
+
+@api_router.get('/spoonacular')
+@limiter.limit("10/minute")
+async def fetch_ideas_spoonacular(*,
+                                  request: Request,
+                                  q: str, 
+                                  settings: config.Settings = Depends(get_settings),
+                                  r = Depends(get_redis),
+                                  current_user: User = Depends(get_current_user)) -> list:
+    prefix_key = 'recipe_ideas_spoonacular'
+    cached_result = get_cached_query_result(r, q, prefix_key=prefix_key)
+    if (cached_result):
+        print(f'Cache found for {prefix_key}:{q}, using cached result')
+        return cached_result
+    result = await get_spoonacular_result(q, settings=settings)
+    cache_duration = 60 * 50 # 50 minutes
+    cache_query_result(r, q, result, prefix_key=prefix_key, ttl_seconds=cache_duration)
+    return result
+
+# ---------- aggregator ----------
 @api_router.get("/async")
+@limiter.limit("10/minute")
 async def fetch_ideas_async(
-    q: str
+    *,
+    request: Request,
+    q: str, 
+    settings: config.Settings = Depends(get_settings),
+    r = Depends(get_redis),
+    current_user: User = Depends(get_current_user)
 ) -> list:
+    prefix_key = 'recipe_ideas'
+    cached_result = get_cached_query_result(r, q, prefix_key=prefix_key)
+    if (cached_result):
+        print(f'Cache found for {prefix_key}:{q}, using cached result')
+        return cached_result
     results = await asyncio.gather(
-        fetch_ideas_mealdb_async(q=q),
+        get_mealdb(q=q),
+        get_spoonacular_result(q=q, settings=settings),
         # *[get_reddit_top_async(subreddit=subreddit, q=q)
         #   for subreddit in RECIPE_SUBREDDITS],
     )
     to_return = []
     for result in results:
         to_return.extend(result)
+    cache_duration = 60 * 50 # 50 minutes
+    cache_query_result(r, q, to_return, prefix_key=prefix_key, ttl_seconds=cache_duration)
     # final_results = [*results[0], *results[1], *results[2]]
     # return dict(zip(RECIPE_SUBREDDITS, results))
     return to_return
 
-@api_router.get("/reddit_ideas")
-def fetch_ideas(reddit_client: RedditClient = Depends(get_reddit_client)) -> dict:
-    return {
-        key: reddit_client.get_reddit_top(subreddit=key) for key in RECIPE_SUBREDDITS
-    }
 
 
-@api_router.get('/mealdb')
-async def fetch_ideas_mealdb_async(
-    q: str
-) -> list:
-    results = await get_mealdb(q)
-    return results
+
+
+

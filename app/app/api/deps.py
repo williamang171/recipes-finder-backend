@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import Depends,   HTTPException,   status, Header
+from fastapi import Depends,   HTTPException, status, Header
 from app.crud import crud_auth
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer

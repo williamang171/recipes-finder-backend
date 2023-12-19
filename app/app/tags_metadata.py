@@ -1,9 +1,5 @@
 tags_metadata = [
     {
-        "name": "recipes",
-        "description": "Add, retrieve, and delete recipes"
-    },
-    {
         "name": "predict",
         "description": "Predict the labels of the given image",
     },

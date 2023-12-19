@@ -3,13 +3,13 @@ from fastapi import FastAPI, APIRouter,  Request
 from pathlib import Path
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi import FastAPI, File, UploadFile
-from .database import engine
+from fastapi import FastAPI
 from app.api.api_v1.api import api_router
 from fastapi.middleware.cors import CORSMiddleware
 from .tags_metadata import tags_metadata
-from fastapi.openapi.utils import get_openapi
-
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from app.limiter import limiter
 
 origins = [
     "https://recipes-finder-fe.netlify.app",
@@ -19,7 +19,8 @@ origins = [
 # recipe.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Recipes Finder API", openapi_tags=tags_metadata,
               description='This documentation lists the available APIs for the app, you can sign in as a demo user with "demo@example.com:Password123!" by clicking on the "Authorize" button')
-
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,

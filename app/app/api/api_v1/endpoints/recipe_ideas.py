@@ -192,7 +192,7 @@ async def fetch_ideas_spoonacular(*,
 # ---------- aggregator ----------
 @api_router.get("/aggregate")
 @limiter.limit("10/minute")
-async def fetch_ideas_async(
+async def fetch_ideas_aggregate(
     *,
     request: Request,
     q: str, 

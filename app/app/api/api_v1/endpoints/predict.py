@@ -4,9 +4,7 @@ import os
 from app.schemas.predict import PredictViaUrl, PredictResult
 from app.api.deps import get_settings, get_redis
 from app import config
-from app.api.deps import get_current_user
 from app.api.hugging_face_utils import query
-from app.schemas.auth import User
 from app.api.redis_utils import cache_query_result, get_cached_query_result
  
 
@@ -28,7 +26,7 @@ def validate_query_result(result):
     return
 
 @api_router.post("/", response_model=list[PredictResult])
-def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings = Depends(get_settings), current_user: User = Depends(get_current_user), r = Depends(get_redis)):
+def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings = Depends(get_settings), r = Depends(get_redis)):
     prefix_key = 'predict_via_url'
     cached_result = get_cached_query_result(r, predict_via_url.url, prefix_key=prefix_key)
     if (cached_result):
@@ -41,7 +39,7 @@ def predict_via_url(*, predict_via_url: PredictViaUrl, settings: config.Settings
 
 
 @api_router.post("/upload", response_model=list[PredictResult])
-async def predict_via_upload(*, file: UploadFile, settings: config.Settings = Depends(get_settings), current_user: User = Depends(get_current_user)):
+async def predict_via_upload(*, file: UploadFile, settings: config.Settings = Depends(get_settings)):
     file_bytes = await file.read()
     result = query(file_bytes, settings.HUGGINGFACE_TOKEN)
     validate_query_result(result)

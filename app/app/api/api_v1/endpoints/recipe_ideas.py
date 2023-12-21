@@ -1,12 +1,12 @@
-from fastapi import Depends, APIRouter, Request
-import httpx
 import asyncio
-from app.api.deps import get_reddit_client, get_redis, get_settings, get_current_user
-from app.clients.reddit import RedditClient
-from app import config
-from app.schemas.auth import User
+
+import httpx
+from app.api.deps import get_redis, get_settings
 from app.api.redis_utils import cache_query_result, get_cached_query_result
 from app.limiter import limiter
+from fastapi import APIRouter, Depends, Request
+
+from app import config
 
 MEALDB_BASE_URL = "https://www.themealdb.com/api/json/v1/1"
 SPOONACULAR_BASE_URL = "https://api.spoonacular.com"
@@ -45,8 +45,7 @@ async def get_mealdb(q: str) -> list:
 @api_router.get('/mealdb')
 async def fetch_ideas_mealdb(
     *,
-    q: str,
-    current_user: User = Depends(get_current_user)
+    q: str
 ) -> list:
     results = await get_mealdb(q)
     return results
@@ -97,7 +96,7 @@ async def get_reddit_top_async(subreddit: str, q: str) -> list:
         return []
 
 # @api_router.get("/reddit")
-# def fetch_ideas_reddit(*, reddit_client: RedditClient = Depends(get_reddit_client), current_user: User = Depends(get_current_user)) -> dict:
+# def fetch_ideas_reddit(*, reddit_client: RedditClient = Depends(get_reddit_client)) -> dict:
 #     return {
 #         key: reddit_client.get_reddit_top(subreddit=key) for key in RECIPE_SUBREDDITS
 #     }
@@ -179,8 +178,7 @@ async def fetch_ideas_spoonacular(*,
                                   request: Request,
                                   q: str, 
                                   settings: config.Settings = Depends(get_settings),
-                                  r = Depends(get_redis),
-                                  current_user: User = Depends(get_current_user)) -> list:
+                                  r = Depends(get_redis)) -> list:
     prefix_key = 'recipe_ideas_spoonacular'
     cached_result = get_cached_query_result(r, q, prefix_key=prefix_key)
     if (cached_result):
@@ -192,15 +190,14 @@ async def fetch_ideas_spoonacular(*,
     return result
 
 # ---------- aggregator ----------
-@api_router.get("/async")
+@api_router.get("/aggregate")
 @limiter.limit("10/minute")
 async def fetch_ideas_async(
     *,
     request: Request,
     q: str, 
     settings: config.Settings = Depends(get_settings),
-    r = Depends(get_redis),
-    current_user: User = Depends(get_current_user)
+    r = Depends(get_redis)
 ) -> list:
     prefix_key = 'recipe_ideas'
     cached_result = get_cached_query_result(r, q, prefix_key=prefix_key)

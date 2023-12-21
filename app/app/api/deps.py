@@ -1,17 +1,22 @@
+from functools import lru_cache
 from typing import Union
-from fastapi import Depends,   HTTPException, status, Header
+
+import httpx
+import redis
+from app.clients.reddit import RedditClient
 from app.crud import crud_auth
-from passlib.context import CryptContext
-from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
-from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.schemas.auth import TokenData
-from functools import lru_cache
+from .authorization_header_elements import get_bearer_token
+from fastapi import Depends, Header, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from .json_web_token import JsonWebToken
+from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+
 from app import config
-import httpx
-from app.clients.reddit import RedditClient
-import redis
+
 
 @lru_cache()
 def get_settings():
@@ -84,3 +89,6 @@ def get_redis(*, settings: config.Settings = Depends(get_settings)):
     port=int(settings.REDIS_PORT),
     password=settings.REDIS_PW)
     return r
+
+def validate_token(token: str = Depends(get_bearer_token)):
+    return JsonWebToken(token).validate()

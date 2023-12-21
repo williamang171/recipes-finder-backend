@@ -1,26 +1,48 @@
 
-from fastapi import FastAPI, APIRouter,  Request
 from pathlib import Path
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from fastapi import FastAPI
+
+import secure
 from app.api.api_v1.api import api_router
+from app.limiter import limiter
+from fastapi import APIRouter, Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from .tags_metadata import tags_metadata
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-from app.limiter import limiter
+
+from .api.deps import validate_token
+from .tags_metadata import tags_metadata
 
 origins = [
     "https://recipes-finder-fe.netlify.app",
 ]
+csp = secure.ContentSecurityPolicy().default_src("'self'").frame_ancestors("'none'")
+hsts = secure.StrictTransportSecurity().max_age(31536000).include_subdomains()
+referrer = secure.ReferrerPolicy().no_referrer()
+cache_value = secure.CacheControl().no_cache().no_store().max_age(0).must_revalidate()
+x_frame_options = secure.XFrameOptions().deny()
+
+secure_headers = secure.Secure(
+    csp=csp,
+    hsts=hsts,
+    referrer=referrer,
+    cache=cache_value,
+    xfo=x_frame_options,
+)
 
 # auth.Base.metadata.create_all(bind=engine)
 # recipe.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Recipes Finder API", openapi_tags=tags_metadata,
-              description='This documentation lists the available APIs for the app, you can sign in as a demo user with "demo@example.com:Password123!" by clicking on the "Authorize" button')
+              description='This documentation lists the available APIs for the app')
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+@app.middleware("http")
+async def set_secure_headers(request, call_next):
+    response = await call_next(request)
+    secure_headers.framework.fastapi(response)
+    return response
 
 app.add_middleware(
     CORSMiddleware,
@@ -56,7 +78,13 @@ app.include_router(root_router)
 # @app.post("/uploadfile/")
 # async def create_upload_file(file: UploadFile):
 #     return {"filename": file.filename}
+@app.get("/api/messages/public")
+def public():
+    return {"text": "This is a public message."}
 
+@app.get("/api/messages/protected", dependencies=[Depends(validate_token)])
+def protected():
+    return {"text": "This is a protected message."}
 
 @app.get("/{full_path:path}")
 async def catch_all(request: Request, full_path: str):

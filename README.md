@@ -12,7 +12,7 @@ https://github.com/williamang171/recipes-finder-frontend
 
 ## Environment Setup
 
-Create a new `.env` file from `.env.sample` in the `app`, then refer to the following table on setting the the environment variables
+Create a new `.env` file from `.env.sample` in the `app`, then refer to the following table on how to setup the environment variables
 
 ## Environment Variables
 

@@ -17,14 +17,14 @@ from .tags_metadata import tags_metadata
 origins = [
     "https://recipes-finder-fe.netlify.app",
 ]
-csp = secure.ContentSecurityPolicy().default_src("'self'").frame_ancestors("'none'")
+# csp = secure.ContentSecurityPolicy().default_src("'self'").frame_ancestors("'none'")
 hsts = secure.StrictTransportSecurity().max_age(31536000).include_subdomains()
 referrer = secure.ReferrerPolicy().no_referrer()
 cache_value = secure.CacheControl().no_cache().no_store().max_age(0).must_revalidate()
 x_frame_options = secure.XFrameOptions().deny()
 
 secure_headers = secure.Secure(
-    csp=csp,
+    # csp=csp,
     hsts=hsts,
     referrer=referrer,
     cache=cache_value,

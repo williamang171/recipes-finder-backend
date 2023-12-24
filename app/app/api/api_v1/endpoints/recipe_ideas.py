@@ -4,8 +4,8 @@ import httpx
 from app.api.deps import get_redis, get_settings
 from app.api.redis_utils import cache_query_result, get_cached_query_result
 from app.limiter import limiter
-from fastapi import APIRouter, Depends, Request
-
+from fastapi import APIRouter, Depends, Request, Response
+from fastapi_cache.decorator import cache
 from app import config
 
 MEALDB_BASE_URL = "https://www.themealdb.com/api/json/v1/1"
@@ -174,6 +174,7 @@ async def get_spoonacular_result(q: str, settings: config.Settings = Depends(get
 
 @api_router.get('/spoonacular')
 @limiter.limit("10/minute")
+@cache(expire=3300)
 async def fetch_ideas_spoonacular(*,
                                   request: Request,
                                   q: str, 
@@ -189,21 +190,24 @@ async def fetch_ideas_spoonacular(*,
     cache_query_result(r, q, result, prefix_key=prefix_key, ttl_seconds=cache_duration)
     return result
 
-# ---------- aggregator ----------
-@api_router.get("/aggregate")
-@limiter.limit("10/minute")
-async def fetch_ideas_aggregate(
+def request_key_builder(
+    func,
+    namespace: str = "",
     *,
-    request: Request,
-    q: str, 
-    settings: config.Settings = Depends(get_settings),
-    r = Depends(get_redis)
-) -> list:
-    prefix_key = 'recipe_ideas'
-    cached_result = get_cached_query_result(r, q, prefix_key=prefix_key)
-    if (cached_result):
-        print(f'Cache found for {prefix_key}:{q}, using cached result')
-        return cached_result
+    request: Request = None,
+    response: Response = None, 
+    **kwargs,
+):
+    args = kwargs.get('kwargs', {})
+    q = args.get('q')
+    return ":".join([
+        namespace,
+        q
+    ])
+
+# ---------- aggregator ----------
+@cache(expire=3300, key_builder=request_key_builder, namespace='recipe_ideas')
+async def fetch_ideas_aggregate_helper(q: str, settings: config.Settings):
     results = await asyncio.gather(
         get_mealdb(q=q),
         get_spoonacular_result(q=q, settings=settings),
@@ -213,8 +217,18 @@ async def fetch_ideas_aggregate(
     to_return = []
     for result in results:
         to_return.extend(result)
-    cache_duration = 60 * 50 # 50 minutes
-    cache_query_result(r, q, to_return, prefix_key=prefix_key, ttl_seconds=cache_duration)
+    return to_return
+
+@api_router.get("/aggregate")
+@limiter.limit("10/minute")
+async def fetch_ideas_aggregate(
+    *,
+    request: Request,
+    q: str,
+    settings: config.Settings = Depends(get_settings),
+    r = Depends(get_redis)
+):  
+    to_return = await fetch_ideas_aggregate_helper(q=q, settings=settings)
     # final_results = [*results[0], *results[1], *results[2]]
     # return dict(zip(RECIPE_SUBREDDITS, results))
     return to_return

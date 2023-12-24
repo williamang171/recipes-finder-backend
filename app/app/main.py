@@ -8,9 +8,13 @@ from fastapi import APIRouter, Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+from redis import asyncio as aioredis
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-
+from app.api.deps import get_settings
 from .api.deps import validate_token
 from .tags_metadata import tags_metadata
 
@@ -52,6 +56,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+async def startup():
+    settings = get_settings()
+    redis = aioredis.from_url(settings.REDIS_URL)
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+
 # Project Directories
 ROOT = Path(__file__).resolve().parent.parent
 BASE_PATH = Path(__file__).resolve().parent
@@ -85,6 +95,11 @@ def public():
 @app.get("/api/messages/protected", dependencies=[Depends(validate_token)])
 def protected():
     return {"text": "This is a protected message."}
+
+@app.get("/test-cache")
+@cache(expire=60)
+async def index():
+    return dict(hello="world")
 
 @app.get("/{full_path:path}")
 async def catch_all(request: Request, full_path: str):

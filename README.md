@@ -4,8 +4,6 @@
 
 ![alt text](/assets/recipes-finder.drawio.png)
 
-https://github.com/williamang171/recipes-finder-backend/assets/70843788/998885ed-23df-4d3f-9399-606a503aee87
-
 ## Front End Repository
 
 https://github.com/williamang171/recipes-finder-frontend

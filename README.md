@@ -2,7 +2,7 @@
 
 > Find recipes by providing text based queries, image urls, or uploading images
 
-![alt text](/assets/recipes-finder.drawio.png)
+![alt text](/assets/diagram.drawio.png)
 
 ## Front End Repository
 

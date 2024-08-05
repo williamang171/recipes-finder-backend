@@ -1,8 +1,25 @@
 # Recipes Finder
 
-> Find recipes by providing text based queries, image urls, or uploading images
+Find recipes by providing text based queries, image urls, or uploading images
 
-![alt text](/assets/diagram.drawio.png)
+## Project Diagram
+![diagram](/documentation/diagram.drawio.png)
+
+## Screenshots
+
+### Home
+![home](/documentation/home-page.png)
+
+### Login / Sign Up with Auth0
+![login](/documentation/login-signup.png) 
+
+### Search Recipes by Query
+![search-recipes-query](/documentation/search-recipes-query.png)
+
+### Search Recipes by Image
+![search-recipes-image](/documentation/search-recipes-image.png)
+
+![search-recipes-image](/documentation/search-recipes-image-result.png)
 
 ## Front End Repository
 

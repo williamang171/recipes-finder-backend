@@ -19,9 +19,9 @@ RUN pip install -r requirements.txt
 WORKDIR /app/
 
 # copy project
-COPY ./app/alembic/ /app/alembic
+# COPY ./app/alembic/ /app/alembic
 COPY ./app/app/ /app/app
-COPY ./app/alembic.ini /app/alembic.ini
+# COPY ./app/alembic.ini /app/alembic.ini
 COPY ./app/run.sh /app/run.sh
 
 RUN chmod +x /app/run.sh

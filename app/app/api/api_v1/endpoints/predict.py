@@ -1,4 +1,4 @@
-from fastapi import Depends, APIRouter, UploadFile, HTTPException, Request
+from fastapi import Depends, APIRouter, UploadFile
 import os
 
 from app.schemas.predict import PredictViaUrl, PredictResult

@@ -3,7 +3,7 @@
 Find recipes by providing text based queries, image urls, or uploading images
 
 ## Project Diagram
-![diagram](/documentation/diagram.drawio.png)
+![diagram](/documentation/recipes-finder.drawio.png)
 
 ## Screenshots
 

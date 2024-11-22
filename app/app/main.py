@@ -70,24 +70,11 @@ TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
 root_router = APIRouter()
 
 
-# @root_router.get("/", status_code=200)
-# def root(
-#     request: Request,
-# ) -> dict:
-#     """
-#     Root GET
-#     """
-#     return {"message": "Hello World"}
-
-
 app.mount("/static", StaticFiles(directory=BASE_PATH/"static"), name="static")
 
 app.include_router(api_router, prefix="/api/v1")
 app.include_router(root_router)
 
-# @app.post("/uploadfile/")
-# async def create_upload_file(file: UploadFile):
-#     return {"filename": file.filename}
 @app.get("/api/messages/public")
 def public():
     return {"text": "This is a public message."}
@@ -95,11 +82,6 @@ def public():
 @app.get("/api/messages/protected", dependencies=[Depends(validate_token)])
 def protected():
     return {"text": "This is a protected message."}
-
-@app.get("/test-cache")
-@cache(expire=60)
-async def index():
-    return dict(hello="world")
 
 @app.get("/{full_path:path}")
 async def catch_all(request: Request, full_path: str):

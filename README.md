@@ -27,31 +27,19 @@ https://github.com/williamang171/recipes-finder-frontend
 
 ## Environment Setup
 
-Create a new `.env` file from `.env.sample` in the `app`, then refer to the following table on how to setup the environment variables
+Create a new `.env` file from `.env.sample` in the `app` folder, then refer to the following table on how to setup the environment variables, for unmentioned variables you can keep it the same as in `.env.sample`
 
 ## Environment Variables
-
-| Key                 |                                                                                                              Description                                                                                                               |
-| ------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| JWT_SECRET_KEY      |                                                    You can generate a value for this with `openssl rand -base64 64` , if you are using Windows, you can use Git Bash to run the command                                                    |
-| REDIS_PW            |                                                                                 redis password (you can leave it as the default based on .env.sample)                                                                                  |
-| REDIS_HOST          |                                                                                   redis host (you can leave it as the default based on .env.sample)                                                                                    |
-| REDIS_PORT          |                                                                                   redis port (you can leave it as the default based on .env.sample)                                                                                    |
-| REDIS_URL           |                                                                        redis url, used for rate limiting (you can leave it as the default based on .env.sample)                                                                        |
-| SPOONACULAR_API_KEY |                                                                  spoonacular api key, you can get one by registering an account via https://spoonacular.com/food-api                                                                   |
-| AUTH0_DOMAIN        | auth0 domain, you can get this by creating your own auth0 account at https://auth0.com/, you can refer to the guide here https://developer.auth0.com/resources/code-samples/full-stack to learn more about how to integrate with auth0 |
-| AUTH0_AUDIENCE      |                                                              auth0 audience, like AUTH0_DOMAIN, you can get this by creating your own auth0 account at https://auth0.com/                                                              |
-| GCP_PROJECT_ID      |                                                                                              optional, used for deployment via cloud run                                                                                               |
-| GCP_CONTAINER_NAME  |                                                                                              optional, used for deployment via cloud run                                                                                               |
+| Key            | Description                                                                                                                                                                                                                            |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| AUTH0_DOMAIN   | auth0 domain, you can get this by creating your own auth0 account at https://auth0.com/, you can refer to the guide here https://developer.auth0.com/resources/code-samples/full-stack to learn more about how to integrate with auth0 |
+| AUTH0_AUDIENCE | auth0 audience, like AUTH0_DOMAIN, you can get this by creating your own auth0 account at https://auth0.com/                                                                                                                           |
 
 ## Running the app
-
-> Docker is required to be installed on your machine before running the app
 
 OS X & Linux:
 
 ```sh
-docker compose up -d
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -62,7 +50,6 @@ cd app
 Windows:
 
 ```sh
-docker compose up -d
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
